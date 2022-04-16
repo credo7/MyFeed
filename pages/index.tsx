@@ -1,22 +1,21 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Header from './components/Header'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Feed from "./components/Feed";
+import Header from "./components/Header";
 
 const Home: NextPage = () => {
   return (
-    <div className=''>
+    <div className="">
       <Head>
         <title>Instagram</title>
       </Head>
       <Header />
 
-      <main className=''>
-      </main>
+      <Feed />
 
-      <footer className=''>
-      </footer>
+      <footer className=""></footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
