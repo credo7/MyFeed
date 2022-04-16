@@ -1,3 +1,4 @@
+import Posts from "./Posts";
 import Stories from "./Stories";
 
 const Feed = () => {
@@ -6,6 +7,7 @@ const Feed = () => {
     xl:grid-cols-3 xl:max-w-6xl mx-auto">
       <section className="col-span-2">
         <Stories />
+        <Posts />
       </section>
     </main>
   );
