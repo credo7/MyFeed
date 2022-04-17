@@ -4,6 +4,7 @@
 
 html,
 body {
+  background-color: rgb(250,250,250);
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -21,7 +22,7 @@ a {
 
 @layer components {
   .navbtn {
-    @apply hidden h-6 w-6 md:inline-flex cursor-pointer 
+    @apply h-6 w-6 inline-flex cursor-pointer 
     hover:scale-125 transition-all duration-150 ease-out;
   }
 }
