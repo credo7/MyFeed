@@ -77,7 +77,7 @@ const Post = ({ id, userImg, username, caption }: any) => {
         <p>11 november 2020</p>
       </div>
       {/* comment input */}
-      <div className="flex flex-row px-4 py-2 justify-between items-center">
+      <div className="flex flex-row px-4 pb-2 pt-[1px] justify-between items-center">
         <FaRegSmileWink className=" w-8 h-8" />
         <input className="mx-4 w-full h-[40px] px-2 border-0 outline-none" placeholder="Add a comment" />
         <button className="text-lg font-medium text-blue-500">Post</button>
