@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { getProviders } from "next-auth/react";
+import { getProviders, signIn as signIntoProvider } from "next-auth/react";
 
-const SignIn = (props: any) => {
+const SignIn = ({ providers }: any) => {
   return (
     <>
       <Head>
@@ -47,13 +47,21 @@ const SignIn = (props: any) => {
                 <div className="flex flex-row">
                   <p className="font-medium text-gray-600">OR</p>
                 </div>
-                <div className="flex flex-row space-x-2 items-center justify-center">
+                {/* <div className="flex flex-row space-x-2 items-center justify-center">
                   <AiOutlineGoogle className="text-blue-900 h-6 w-6" />
                   <p className=" text-blue-900 font-medium">
                     {" "}
                     Log in with Google
                   </p>
-                </div>
+                </div> */}
+                {Object.values(providers).map((provider: any) => (
+                  <div key={provider.name}>
+                    <button className=" text-gray-400" onClick={() => signIntoProvider(provider.id)}>
+                      Sign in with {provider.name}
+                    </button>
+                  </div>
+                ))}
+
                 <p className="text-xs font-medium text-slate-700 pb-5">
                   Forgot password?
                 </p>
@@ -82,14 +90,14 @@ const SignIn = (props: any) => {
   );
 };
 
-// export const getServerSideProps = async () => {
-//   const providers = getProviders();
+export async function getServerSideProps() {
+  const providers = await getProviders();
 
-//   return {
-//     props: {
-//       providers,
-//     },
-//   };
-// };
+  return {
+    props: {
+      providers,
+    },
+  };
+}
 
 export default SignIn;

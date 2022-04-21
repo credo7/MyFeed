@@ -2,18 +2,21 @@ import { TiCompass } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 import {
   AiFillHome,
-  AiOutlineMenu,
-  AiOutlinePlusCircle,
+  // AiOutlineMenu,
+  // AiOutlinePlusCircle,
   AiOutlineHeart,
 } from "react-icons/ai";
 import { HiOutlinePaperAirplane, HiOutlineUserGroup } from "react-icons/Hi";
 import { BsPatchPlus } from "react-icons/bs";
+import { getSession, useSession } from "next-auth/react";
 
 const Header = () => {
   return (
     <>
-      <div className="min-h-[60px] flex flex-row px-4 justify-between 
-      items-center py-[10px] max-w-[970px] lg:mx-auto">
+      <div
+        className="min-h-[60px] flex flex-row px-4 justify-between 
+      items-center py-[10px] max-w-[970px] lg:mx-auto"
+      >
         {/* <div className="cursor-pointer lg:hidden mr-4">
           <IoLogoInstagram className="h-10 w-10" />
         </div> */}
