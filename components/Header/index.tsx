@@ -8,9 +8,11 @@ import {
 } from "react-icons/ai";
 import { HiOutlinePaperAirplane, HiOutlineUserGroup } from "react-icons/Hi";
 import { BsPatchPlus } from "react-icons/bs";
-import { getSession, useSession } from "next-auth/react";
+import { useRecoilState } from "recoil";
+import { modalState } from "../../atoms/modalAtom";
 
 const Header = () => {
+  const [open, setOpen] = useRecoilState(modalState);
   return (
     <>
       <div
@@ -48,7 +50,10 @@ const Header = () => {
               3
             </div>
           </div>
-          <BsPatchPlus className="navbtn w-6 h-6" />
+          <BsPatchPlus
+            onClick={() => setOpen(true)}
+            className="navbtn w-6 h-6"
+          />
           <TiCompass className="navbtn h-8 w-8 rotate-180" />
           <AiOutlineHeart className="navbtn w-8 h-8" />
           <img className="h-8 rounded-full" src="https://i.pravatar.cc/40" />
