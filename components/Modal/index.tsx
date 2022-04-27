@@ -15,8 +15,8 @@ import {
 import { db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
-const Modal = () => {
-  const { data: session } = useSession();
+const Modal = ({ currentUser }: any) => {
+  // const { data: session } = useSession();
   const [open, setOpen] = useRecoilState(modalState);
   const filePickerRef = useRef(null as any);
   const captionRef = useRef(null as any);
@@ -42,9 +42,9 @@ const Modal = () => {
     setLoading(true);
 
     const docRef = await addDoc(collection(db, "posts"), {
-      username: session?.user?.email,
+      username: currentUser.email,
       caption: captionRef.current.value,
-      profileImg: session?.user?.image,
+      profileImg: currentUser.image,
       timeStamp: serverTimestamp(),
     });
 
