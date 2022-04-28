@@ -11,8 +11,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { currentUser } = useAuth();
 
-  console.log(currentUser.image)
-
   useEffect(() => {
     if (!currentUser) router.push("/auth/signin");
   }, [currentUser]);

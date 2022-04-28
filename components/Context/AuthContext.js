@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
       getUserImageAndAddToCurrentUser();
     }
     if (currentUser) {
-      console.log(currentUser.name);
+      console.log(currentUser.uid);
     }
   }, [currentUser]);
 
@@ -38,10 +38,10 @@ export function AuthProvider({ children }) {
   }
 
   const getUserImageAndAddToCurrentUser = async () => {
-    getDownloadURL(ref(storage, currentUser.uid, "profile.png"))
+    getDownloadURL(ref(storage, `${currentUser.uid}/profile.png`))
       .then((url) => {
         console.log("here");
-        updateProfile(currentUser, { image: url });
+        updateProfile(currentUser, { photoURL: url });
       })
       .catch((e) => {
         console.log("Opps.. You haven't got picture");

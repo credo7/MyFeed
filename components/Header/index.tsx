@@ -99,21 +99,29 @@ const Header = () => {
           <TiCompass className="navbtn h-8 w-8 rotate-180" />
           <AiOutlineHeart className="navbtn w-8 h-8" />
           <div onClick={() => setOpenProfileModal(!openProfileModal)}>
-            {currentUser.image ? (
-              <img className="h-8 w-8 rounded-full" src={currentUser.image} />
+            {currentUser.photoURL ? (
+              <img
+                className="h-9 w-9 rounded-full object-cover"
+                src={currentUser.photoURL}
+              />
             ) : (
               <FaRegUserCircle className="h-7 w-7" />
             )}
           </div>
           {openProfileModal ? (
-            <div className="absolute top-[76px] left-[-22px] w-full h-[400px] bg-white border-[1px] border-gray-200 rounded-sm flex flex-col justify-center items-center ">
-              {currentUser.image ? (
+            <div className="absolute top-[76px] right-0 bg-white border-[1px] border-gray-200 rounded-sm flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
+              {/* <p className="mt-4 mb-6">username</p> */}
+              {currentUser.photoURL ? (
                 <img
-                  className="h-12 w-12 rounded-full"
-                  src={currentUser.image}
+                  onClick={() => filePickerRef.current.click()}
+                  className="h-28 w-28 object-cover rounded-full cursor-pointer mt-[12px]"
+                  src={currentUser.photoURL}
                 />
               ) : (
-                <FaRegUserCircle className="h-12 w-12" />
+                <FaRegUserCircle
+                  onClick={() => filePickerRef.current.click()}
+                  className="h-28 w-28 cursor-pointer"
+                />
               )}
               <input
                 ref={filePickerRef}
@@ -123,12 +131,22 @@ const Header = () => {
                 onChange={addImageToProfile}
               />
               {selectedFile ? (
-                <button onClick={uploadPicture}>Change picture</button>
+                <button
+                  className="mt-5 mb-1 bg-blue-400 h-[28px] w-[112px] text-white text-lg rounded-sm font-light"
+                  onClick={uploadPicture}
+                >
+                  {loading ? "Loading..." : "Upload"}
+                </button>
               ) : (
-                <button onClick={() => filePickerRef.current.click()}>
-                  Upload picture
+                <button
+                  className="text-sm text-gray-400 mt-5 mb-1 h-[28px] w-[112px]"
+                  onClick={() => filePickerRef.current.click()}
+                >
+                  Click to change
                 </button>
               )}
+              {/* <p>Full name</p> */}
+              {/* <p>Bio</p> */}
             </div>
           ) : (
             <></>
