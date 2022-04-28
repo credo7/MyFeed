@@ -16,10 +16,9 @@ import { db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const Modal = ({ currentUser }: any) => {
-  // const { data: session } = useSession();
   const [open, setOpen] = useRecoilState(modalState);
-  const filePickerRef = useRef(null as any);
-  const captionRef = useRef(null as any);
+  const filePickerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const captionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(null as any);
   const [loading, setLoading] = useState(false);
 

@@ -10,9 +10,51 @@ import { HiOutlinePaperAirplane, HiOutlineUserGroup } from "react-icons/Hi";
 import { BsPatchPlus } from "react-icons/bs";
 import { useRecoilState } from "recoil";
 import { modalState } from "../../atoms/modalAtom";
+import { useAuth } from "../Context/AuthContext";
+import { FaRegUserCircle } from "react-icons/fa";
+import { useRef, useState } from "react";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { storage } from "../../firebase";
+import { updateProfile } from "firebase/auth";
 
 const Header = () => {
   const [open, setOpen] = useRecoilState(modalState);
+  const { currentUser } = useAuth();
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+  const filePickerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [selectedFile, setSelectedFile] = useState(null as any);
+  const [loading, setLoading] = useState(false);
+
+  const addImageToProfile = (e: any) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      if (readerEvent.target?.result) {
+        setSelectedFile(readerEvent.target?.result as any);
+      }
+    };
+  };
+
+  const uploadPicture = async () => {
+    if (loading) return;
+
+    setLoading(true);
+    const imageRef = ref(storage, `${currentUser.uid}/profile.png`);
+    imageRef.bucket.replace("appspot.com", "firebaseapp.com");
+    await uploadString(imageRef, selectedFile, "data_url")
+      .then(async (snapshot) => {
+        const downloadImageURL = await getDownloadURL(imageRef);
+        updateProfile(currentUser, { image: downloadImageURL } as any);
+      })
+      .catch((e) => console.log(e));
+    setOpen(false);
+    setLoading(false);
+    setSelectedFile(null);
+  };
+
   return (
     <>
       <div
@@ -41,7 +83,7 @@ const Header = () => {
           />
         </div>
         {/* End : Buttons */}
-        <div className="flex flex-row items-center justify-end space-x-2 sm:space-x-3 md:space-x-6">
+        <div className="flex flex-row items-center justify-end space-x-2 sm:space-x-3 md:space-x-6 relative">
           <AiFillHome className="navbtn" />
           {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
           <div className="relative">
@@ -56,7 +98,41 @@ const Header = () => {
           />
           <TiCompass className="navbtn h-8 w-8 rotate-180" />
           <AiOutlineHeart className="navbtn w-8 h-8" />
-          <img className="h-8 rounded-full" src="https://i.pravatar.cc/40" />
+          <div onClick={() => setOpenProfileModal(!openProfileModal)}>
+            {currentUser.image ? (
+              <img className="h-8 w-8 rounded-full" src={currentUser.image} />
+            ) : (
+              <FaRegUserCircle className="h-7 w-7" />
+            )}
+          </div>
+          {openProfileModal ? (
+            <div className="absolute top-[76px] left-[-22px] w-full h-[400px] bg-white border-[1px] border-gray-200 rounded-sm flex flex-col justify-center items-center ">
+              {currentUser.image ? (
+                <img
+                  className="h-12 w-12 rounded-full"
+                  src={currentUser.image}
+                />
+              ) : (
+                <FaRegUserCircle className="h-12 w-12" />
+              )}
+              <input
+                ref={filePickerRef}
+                type="file"
+                className="absolute"
+                hidden
+                onChange={addImageToProfile}
+              />
+              {selectedFile ? (
+                <button onClick={uploadPicture}>Change picture</button>
+              ) : (
+                <button onClick={() => filePickerRef.current.click()}>
+                  Upload picture
+                </button>
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>

@@ -21,8 +21,12 @@ const SignIn = () => {
     setLoading(true);
 
     try {
+      console.log(999);
       await signin(emailRef.current.value, passwordRef.current.value);
-    } catch (e) {}
+      console.log(777);
+    } catch (e) {
+      console.log(e);
+    }
     setLoading(false);
   }
 
@@ -65,15 +69,16 @@ const SignIn = () => {
                     <form onSubmit={handleSubmit as any} className="space-y-2">
                       <input
                         ref={emailRef}
-                        placeholder="Phone number, username, or email"
+                        placeholder="email"
                         className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] focus:ring-0 outline-none w-full"
+         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] focus:ring-0 outline-none w-full focus:border-blue-500"
                       />
                       <input
                         ref={passwordRef}
+                        type="password"
                         placeholder="Password"
                         className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] focus:ring-0 outline-none w-full"
+         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] focus:ring-0 outline-none w-full border-gray-200"
                       />
                       <button
                         type="submit"

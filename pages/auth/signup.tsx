@@ -15,9 +15,9 @@ const SignUp = () => {
   const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const passwordRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  // useEffect(() => {
-  //   if (currentUser) router.push("/");
-  // }, [currentUser]);
+  useEffect(() => {
+    if (currentUser) router.push("/");
+  }, [currentUser]);
 
   async function handleSubmit(e: MouseEvent) {
     e.preventDefault();
@@ -43,7 +43,6 @@ const SignUp = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="background_gray min-h-[580px] flex flex-row vh_for_iphones w-full items-center justify-center">
-        {currentUser && currentUser.email}
         <div className="relative flex flex-row items-start justify-start">
           <div className="hidden lg:block">
             <img className="h-[582px]" src="/LoginPics/background.png" />

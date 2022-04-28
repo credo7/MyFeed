@@ -3,11 +3,11 @@ import { auth, db, storage, app } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
+  signOut,
 } from "firebase/auth";
 import { setDoc, doc, getDoc, query } from "firebase/firestore";
-import { useSession } from "next-auth/react";
-import { ref } from "firebase/storage";
-import { collection } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const AuthContext = createContext();
 
@@ -19,6 +19,15 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    if (currentUser && !currentUser.image) {
+      getUserImageAndAddToCurrentUser();
+    }
+    if (currentUser) {
+      console.log(currentUser.name);
+    }
+  }, [currentUser]);
+
   async function signup(email, password, name, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     return await setDoc(doc(db, "users", cred.user.uid), {
@@ -28,14 +37,31 @@ export function AuthProvider({ children }) {
     });
   }
 
-  
+  const getUserImageAndAddToCurrentUser = async () => {
+    getDownloadURL(ref(storage, currentUser.uid, "profile.png"))
+      .then((url) => {
+        console.log("here");
+        updateProfile(currentUser, { image: url });
+      })
+      .catch((e) => {
+        console.log("Opps.. You haven't got picture");
+      });
 
-  function login(email, password) {
+    // const userImageUrl = await getDownloadURL(imageRef).catch((e) => {
+    //   console.log("Don't worry");
+    // });
+    // if (userImageUrl) {
+    //   updateProfile(currentUser, { image: userImageUrl });
+    // }
+  };
+
+  function signin(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
   function logout() {
-    return auth.signOut();
+    console.log(123);
+    return signOut(auth);
   }
 
   function resetPassword(email) {
@@ -61,7 +87,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    login,
+    signin,
     signup,
     logout,
     resetPassword,

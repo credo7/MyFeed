@@ -1,4 +1,8 @@
+import { useAuth } from "../../Context/AuthContext";
+
 const MiniProfile = () => {
+  const { logout } = useAuth();
+  
   return (
     <div className="w-293px flex flex-row items-center space-x-4 justify-between pl-4 mt-5">
       <div className="flex flex-row space-x-4 justify-center items-center">
@@ -9,7 +13,9 @@ const MiniProfile = () => {
         </div>
       </div>
 
-      <button className="text-blue-500 text-xs font-medium">Sign out</button>
+      <button onClick={logout} className="text-blue-500 text-xs font-medium">
+        Sign out
+      </button>
     </div>
   );
 };
