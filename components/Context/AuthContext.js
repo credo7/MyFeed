@@ -18,29 +18,37 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [userSecondaryInfo, setUserSecondaryInfo] = useState();
 
   useEffect(() => {
     if (currentUser && !currentUser.image) {
       getUserImageAndAddToCurrentUser();
     }
     if (currentUser) {
-      console.log(currentUser.uid);
+      updateUserSecondaryInfo();
     }
   }, [currentUser]);
 
   async function signup(email, password, name, username) {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-    return await setDoc(doc(db, "users", cred.user.uid), {
+    await createUserWithEmailAndPassword(auth, email, password);
+    return await getDoc(doc(db, "users", currentUser.uid), {
       email,
       name,
       username,
     });
   }
 
+  const updateUserSecondaryInfo = async () => {
+    const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+
+    if (docSnap.exists()) {
+      setUserSecondaryInfo(docSnap.data());
+    }
+  };
+
   const getUserImageAndAddToCurrentUser = async () => {
     getDownloadURL(ref(storage, `${currentUser.uid}/profile.png`))
       .then((url) => {
-        console.log("here");
         updateProfile(currentUser, { photoURL: url });
       })
       .catch((e) => {
@@ -60,7 +68,6 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
-    console.log(123);
     return signOut(auth);
   }
 
@@ -93,6 +100,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    userSecondaryInfo,
   };
 
   return (
