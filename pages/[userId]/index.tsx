@@ -1,4 +1,6 @@
 import {
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -6,6 +8,7 @@ import {
   onSnapshot,
   query,
   Timestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
@@ -19,36 +22,57 @@ import Posts from "../../components/Feed/Posts";
 import ProfilePosts from "./ProfilePosts";
 import Modal from "../../components/NewPostModal";
 
-// interface Props {
-//   user: {
-//     photoURL: string;
-//     username: string;
-//     name: string;
-//   };
-//   posts: Post[];
-// }
-
-// interface Post {
-//   userId: string;
-//   imageURL: string;
-// }
-
 const Profile = (props: any) => {
   const router = useRouter();
   const { currentUser } = useAuth();
-  const [owner, setOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const [isFollower, setIsFollower] = useState(false);
 
   useEffect(() => {
     if (!currentUser) router.push("/auth/signin");
   }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser.uid == props.user.uid) {
-      setOwner(true);
+    //---is_owner?
+    if (currentUser.uid && currentUser.uid == props.user.uid) {
+      setIsOwner(true);
     } else {
-      setOwner(false);
+      setIsOwner(false);
     }
   }, [currentUser, props.user]);
+
+  useEffect(() => {
+    const checkIsFollower = async () => {
+      const userFollowingsRef = collection(db, "users");
+      const followingDocs = await getDocs(
+        query(
+          userFollowingsRef,
+          where("uid", "==", currentUser.uid),
+          where("followings", "array-contains", props.user.uid)
+        )
+      );
+      if (followingDocs?.docs[0]?.exists()) {
+        setIsFollower(true);
+      }
+    };
+    checkIsFollower();
+  }, []);
+
+  const follow = async () => {
+    const userRef = doc(db, "users", currentUser.uid);
+    updateDoc(userRef, {
+      followings: arrayUnion(props.user.uid),
+    });
+    setIsFollower(true);
+  };
+
+  const unfollow = async () => {
+    const userRef = doc(db, "users", currentUser.uid);
+    updateDoc(userRef, {
+      followings: arrayRemove(props.user.uid),
+    });
+    setIsFollower(false);
+  };
 
   return (
     <>
@@ -72,7 +96,7 @@ const Profile = (props: any) => {
                   <h2 className=" text-3xl font-light mb-2 sm:mb-0">
                     {props.user.username}
                   </h2>
-                  {owner ? (
+                  {isOwner ? (
                     <button className="py-[5px] px-[9px] bg-white border-[1px] rounded-[3px] text-sm font-medium">
                       Edit profile
                     </button>
@@ -82,9 +106,21 @@ const Profile = (props: any) => {
                         <button className="py-[5px] px-[9px] bg-white border-[1px] rounded-[3px] text-sm font-medium">
                           Message
                         </button>
-                        <button className="py-[5px] px-[16px] bg-white border-[1px] rounded-[3px] text-sm">
-                          <FaUserCheck />
-                        </button>
+                        {isFollower ? (
+                          <button
+                            onClick={unfollow}
+                            className="py-[5px] px-[16px] bg-white border-[1px] rounded-[3px] text-sm"
+                          >
+                            <FaUserCheck />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={follow}
+                            className="py-[5px] px-[16px] bg-white border-[1px] rounded-[3px] text-sm font-medium"
+                          >
+                            Follow
+                          </button>
+                        )}
                       </div>
                       <BsThreeDots className="hidden sm:block w-6 h-6" />
                     </>
@@ -96,12 +132,16 @@ const Profile = (props: any) => {
                     &nbsp; {props.posts.length == 1 ? "post" : "posts"}
                   </li>
                   <li className="">
-                    <span className="font-medium">270k</span>
-                    &nbsp;followers
+                    <span className="font-medium">
+                      {props.followers.length}
+                    </span>
+                    &nbsp;follower{props.followers.length != 1 && "s"}
                   </li>
                   <li className="">
-                    <span className="font-medium">1022</span>
-                    &nbsp;followings
+                    <span className="font-medium">
+                      {props.followings.length}
+                    </span>
+                    &nbsp;following{props.followings.length != 1 && "s"}
                   </li>
                 </ul>
                 <div>
@@ -137,6 +177,8 @@ export async function getStaticProps({ params }: any) {
 
   const postsRef = collection(db, "posts");
   const res = [] as any;
+  const followers = [] as any;
+  let followings = [] as any;
   if (userUid) {
     const postsQ = query(postsRef, where("user_uid", "==", userUid));
 
@@ -144,15 +186,32 @@ export async function getStaticProps({ params }: any) {
 
     await postsInfo.forEach((doc) => {
       if (doc.data()) {
-        res.push(JSON.parse(JSON.stringify(doc.data())));
+        try {
+          res.push(JSON.parse(JSON.stringify(doc?.data())))
+        } catch(e){
+
+        }
       }
     });
+
+    const followersQuery = query(
+      docRef,
+      where("followings", "array-contains", userUid)
+    );
+    const followerDocs = await getDocs(followersQuery);
+    followerDocs.forEach((doc) => {
+      followers.push(doc?.data()?.username);
+    });
+
+    followings = profileInfo?.docs[0]?.data()?.followings || [];
   }
 
   return {
     props: {
       user: profileInfo?.docs[0]?.data(),
       posts: res,
+      followers,
+      followings,
     },
   };
 }
