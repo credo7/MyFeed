@@ -21,9 +21,7 @@ const SignIn = () => {
     setLoading(true);
 
     try {
-      console.log(999);
       await signin(emailRef.current.value, passwordRef.current.value);
-      console.log(777);
     } catch (e) {
       console.log(e);
     }

@@ -14,7 +14,7 @@ const Stories = () => {
   }, []);
 
   return (
-    <div className="flex space-x-2 px-5 py-2 sm:py-5 bg-white overflow-x-scroll 
+    <div className="flex space-x-4 px-5 py-2 sm:py-4 bg-white overflow-x-scroll 
     scrollbar-hide border-y sm:border-x border-gray-200 rounded-sm">
       {suggestions.map(
         (profile: { id: Key; avatar: string; username: string }) => (

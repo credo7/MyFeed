@@ -6,7 +6,7 @@ import {
   updateProfile,
   signOut,
 } from "firebase/auth";
-import { setDoc, doc, getDoc, query } from "firebase/firestore";
+import { setDoc, doc, getDoc, query, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const AuthContext = createContext();
@@ -35,6 +35,7 @@ export function AuthProvider({ children }) {
       email,
       name,
       username,
+      uid: currentUser.uid,
     });
   }
 
@@ -50,6 +51,8 @@ export function AuthProvider({ children }) {
     getDownloadURL(ref(storage, `${currentUser.uid}/profile.png`))
       .then((url) => {
         updateProfile(currentUser, { photoURL: url });
+        const userDoc = doc(db, `users/${currentUser.uid}`);
+        updateDoc(userDoc, { photoURL: url });
       })
       .catch((e) => {
         console.log("Opps.. You haven't got picture");

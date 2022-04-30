@@ -11,27 +11,27 @@ const Suggestions = () => {
       </div>
       <div className="flex flex-col space-y-2">
         <Suggestion
-          username="Fuck_Me"
+          username="bot1"
           userImg="https://i.pravatar.cc"
           caption="I'm lucky"
         />
         <Suggestion
-          username="Fuck_Me"
+          username="bot2"
           userImg="https://i.pravatar.cc"
           caption="I'm lucky"
         />
         <Suggestion
-          username="Fuck_Me"
+          username="bot3"
           userImg="https://i.pravatar.cc"
           caption="I'm lucky"
         />
         <Suggestion
-          username="Fuck_Me"
+          username="bot4"
           userImg="https://i.pravatar.cc"
           caption="I'm lucky"
         />
         <Suggestion
-          username="Fuck_Me"
+          username="bot5"
           userImg="https://i.pravatar.cc"
           caption="I'm lucky"
         />

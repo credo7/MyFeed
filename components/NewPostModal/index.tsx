@@ -7,20 +7,26 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useSession } from "next-auth/react";
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
+  getDocs,
+  query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { useAuth } from "../Context/AuthContext";
 
-const Modal = ({ currentUser }: any) => {
+const Modal = () => {
   const [open, setOpen] = useRecoilState(modalState);
   const filePickerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const captionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(null as any);
   const [loading, setLoading] = useState(false);
+  const { currentUser } = useAuth();
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -35,15 +41,24 @@ const Modal = ({ currentUser }: any) => {
     };
   };
 
-  const uploadPost = async () => {
+  const uploadPost = async (e: any) => {
+    e.preventDefault();
     if (loading) return;
 
     setLoading(true);
 
+
+    const userDocs = await getDocs(
+      query(collection(db, "users"), where("uid", "==", currentUser.uid))
+    );
+
+    const username = await userDocs?.docs[0]?.data().username;
+
     const docRef = await addDoc(collection(db, "posts"), {
-      username: currentUser.email,
+      user_uid: currentUser.uid,
+      username,
       caption: captionRef.current.value,
-      profileImg: currentUser.image,
+      profileImg: currentUser.photoURL || "",
       timeStamp: serverTimestamp(),
     });
 
@@ -55,7 +70,7 @@ const Modal = ({ currentUser }: any) => {
       async (snapshot) => {
         const downloadURL = await getDownloadURL(imageRef);
 
-        await updateDoc(doc(db, "posts", docRef.id), { image: downloadURL });
+        await updateDoc(doc(db, "posts", docRef.id), { imageURL: downloadURL });
       }
     );
 
@@ -111,18 +126,23 @@ const Modal = ({ currentUser }: any) => {
                       hidden
                     />
                   </div>
-                  <input
-                    ref={captionRef}
-                    placeholder="Please enter a caption"
-                    className=" py-1 px-4 outline-none border-[1px] rounded-md text-gray-500 w-[192px] font-light"
-                  />
-                  <button
-                    onClick={uploadPost}
-                    hidden={!selectedFile}
-                    className=" bg-blue-400 p-2 px-4 rounded-lg text-white my-4"
+                  <form
+                    className="flex flex-col space-y-4"
+                    // hidden={!selectedFile}
+                    onSubmit={uploadPost}
                   >
-                    {loading ? "Uploading..." : "Upload post"}
-                  </button>
+                    <input
+                      ref={captionRef}
+                      placeholder="Please enter a caption"
+                      className=" py-1 px-4 outline-none border-[1px] rounded-md text-gray-500 w-[192px] font-light"
+                    />
+                    <button
+                      hidden={!selectedFile}
+                      className=" bg-blue-400 p-2 px-4 rounded-lg text-white my-4"
+                    >
+                      {loading ? "Uploading..." : "Upload post"}
+                    </button>
+                  </form>
                 </div>
               </div>
               <GrFormClose
