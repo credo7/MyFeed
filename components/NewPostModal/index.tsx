@@ -5,6 +5,7 @@ import { GrFormClose } from "react-icons/gr";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { Dialog, Transition } from "@headlessui/react";
 import { useSession } from "next-auth/react";
+import { uid } from "uid";
 import {
   addDoc,
   arrayUnion,
@@ -47,7 +48,6 @@ const Modal = () => {
 
     setLoading(true);
 
-
     const userDocs = await getDocs(
       query(collection(db, "users"), where("uid", "==", currentUser.uid))
     );
@@ -55,6 +55,7 @@ const Modal = () => {
     const username = await userDocs?.docs[0]?.data().username;
 
     const docRef = await addDoc(collection(db, "posts"), {
+      uid: uid(),
       user_uid: currentUser.uid,
       username,
       caption: captionRef.current.value,

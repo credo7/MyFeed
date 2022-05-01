@@ -143,7 +143,7 @@ const Header = () => {
             </div>
             {/* End : Buttons */}
             <div className="flex flex-row items-center justify-end space-x-2 sm:space-x-3 md:space-x-6 relative">
-              <AiFillHome className="navbtn" />
+              <AiFillHome onClick={goToMainPage} className="navbtn" />
               {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
               <div className="relative">
                 <HiOutlinePaperAirplane className="navbtn rotate-45 relative bottom-1 left-1" />
@@ -155,9 +155,9 @@ const Header = () => {
                 onClick={() => setOpen(true)}
                 className="navbtn w-6 h-6"
               />
-              <TiCompass className="navbtn h-8 w-8 rotate-180" />
+              {/* <TiCompass className="navbtn h-8 w-8 rotate-180" /> */}
               <AiOutlineHeart className="navbtn w-8 h-8" />
-              <div onClick={() => setOpenProfileModal(!openProfileModal)}>
+              <div className="cursor-pointer" onClick={() => setOpenProfileModal(!openProfileModal)}>
                 {currentUser.photoURL ? (
                   <img
                     className="h-9 w-9 rounded-full object-cover"
