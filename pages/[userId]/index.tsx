@@ -25,21 +25,13 @@ import Modal from "../../components/NewPostModal";
 const Profile = (props: any) => {
   const router = useRouter();
   const { currentUser } = useAuth();
-  const [isOwner, setIsOwner] = useState(false);
   const [isFollower, setIsFollower] = useState(false);
 
   useEffect(() => {
     if (!currentUser) router.push("/auth/signin");
   }, [currentUser]);
 
-  useEffect(() => {
-    //---is_owner?
-    if (currentUser.uid && currentUser.uid == props.user.uid) {
-      setIsOwner(true);
-    } else {
-      setIsOwner(false);
-    }
-  }, [currentUser, props.user]);
+  const isOwner = currentUser.uid && currentUser.uid == props.user.uid;
 
   useEffect(() => {
     const checkIsFollower = async () => {
@@ -79,11 +71,11 @@ const Profile = (props: any) => {
       {currentUser && (
         <div className="w-full h-screen flex flex-col items-center">
           <Header />
-          <div className=" max-w-[975px] sm:px-[20px] pt-[30px]">
+          <div className=" max-w-[975px] sm:px-[20px] pt-[32px]">
             <div className="flex flex-col mb-[20px] sm:mb-0 justify-center items-center sm:flex-row px-[16px] sm:px-0">
-              <div className="min-w-[150px] md:min-w-[292px] sm:mr-[30px]">
+              <div className="min-w-[150px] md:min-w-[292px] sm:mr-[32px]">
                 <img
-                  className="mx-auto w-[120px] h-[120px] md:w-[168px] md:h-[168px] p-[5px] object-cover rounded-full border-[3px] border-red-500"
+                  className="mx-auto w-[120px] h-[120px] md:w-[200px] md:h-[200px] p-[5px] object-cover rounded-[32px] border-[3px] border-red-500"
                   src={
                     props.user.photoURL ||
                     "data:image/jpeg;base64,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"
@@ -187,10 +179,8 @@ export async function getStaticProps({ params }: any) {
     await postsInfo.forEach((doc) => {
       if (doc.data()) {
         try {
-          res.push(JSON.parse(JSON.stringify(doc?.data())))
-        } catch(e){
-
-        }
+          res.push(JSON.parse(JSON.stringify(doc?.data())));
+        } catch (e) {}
       }
     });
 

@@ -80,7 +80,7 @@ const SignIn = () => {
                       />
                       <button
                         type="submit"
-                        className="h-[30px] bg-blue-500 text-white font-medium text-sm rounded-md w-full"
+                        className="h-[32px] bg-blue-500 text-white font-medium text-sm rounded-md w-full"
                       >
                         {loading ? "loading..." : "Log in"}
                       </button>

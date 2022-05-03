@@ -6,6 +6,7 @@ import Modal from "../components/NewPostModal";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuth } from "../components/Context/AuthContext";
+import StoryView from "../components/StoriesView";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const Home: NextPage = () => {
           <Header />
           <Feed />
           <Modal />
+          <StoryView />
           <footer className=""></footer>
         </>
       ) : (

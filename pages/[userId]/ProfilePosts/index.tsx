@@ -12,7 +12,7 @@ const ProfilePosts = ({ posts }: any) => {
                 className="absolute w-full object-contain top-0"
                 src={post.imageURL}
                 alt="post"
-              ></img>
+              />
             </div>
           );
         })}

@@ -93,8 +93,8 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-full min-h-[60px] border-none">
-        <div className="w-full border-b-[1px] shadow-sm bg-white fixed z-50">
+      <div className="w-full min-h-[60px] border-none flex justify-center items-center">
+        <div className="w-full lg:w-[1024px] md:w-[768px] sm:w-[640px] sm:rounded-[32px] sm:rounded-t-none backdrop-blur-3xl bg-[rgba(255,255,255,0.9)] shadow-sm fixed z-50">
           <div
             className="min-h-[60px] flex flex-row px-4 justify-between 
       items-center py-[10px] max-w-[970px] lg:mx-auto"
@@ -117,13 +117,13 @@ const Header = () => {
 
               <input
                 ref={searchRef}
-                onKeyUp={(e) => search(e.currentTarget.value)}
-                className="block w-full pl-10 bg-gray-50 placeholder-gray-300 sm:text-sm border-none rounded-md focus:ring-0"
+                onKeyUp={(e) => search(e.currentTarget.value)} // TODO debounce
+                className="block w-full pl-10 bg-gray-50 placeholder-gray-300 sm:text-sm border-none rounded-[32px] focus:ring-0"
                 type="text"
                 placeholder="Search"
               />
               {usernames.length > 0 ? (
-                <div className="absolute top-[30px] w-full max-h-[300px] bg-gray-50 overflow-y-scroll rounded-sm shadow-lg">
+                <div className="absolute top-[32px] w-full max-h-[300px] bg-gray-50 overflow-y-scroll rounded-sm shadow-lg">
                   <ul className="px-4 py-2">
                     {usernames.map((username: string) => {
                       return (
@@ -142,7 +142,7 @@ const Header = () => {
               )}
             </div>
             {/* End : Buttons */}
-            <div className="flex flex-row items-center justify-end space-x-2 sm:space-x-3 md:space-x-6 relative">
+            <div className="flex flex-row items-center justify-end space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6 relative">
               <AiFillHome onClick={goToMainPage} className="navbtn" />
               {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
               <div className="relative">
@@ -157,7 +157,12 @@ const Header = () => {
               />
               {/* <TiCompass className="navbtn h-8 w-8 rotate-180" /> */}
               <AiOutlineHeart className="navbtn w-8 h-8" />
-              <div className="cursor-pointer" onClick={() => setOpenProfileModal(!openProfileModal)}>
+              <div
+                className="cursor-pointer"
+                onClick={() => setOpenProfileModal(!openProfileModal)}
+              >
+                {" "}
+                {/* TODO Tooltip */}
                 {currentUser.photoURL ? (
                   <img
                     className="h-9 w-9 rounded-full object-cover"

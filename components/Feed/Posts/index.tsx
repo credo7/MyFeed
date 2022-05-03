@@ -25,48 +25,23 @@ const Posts = () => {
       const followings = userDocs?.docs[0]?.data()?.followings;
 
       const postsRef = collection(db, "posts");
-      const postsQ = query(
-        postsRef,
-        where("user_uid", "in", followings),
-        orderBy("timeStamp")
-      );
-      const postsDocs = await getDocs(postsQ);
+      if (followings?.length > 0) {
+        const postsQ = query(
+          postsRef,
+          where("user_uid", "in", followings),
+          orderBy("timeStamp")
+        );
+        const postsDocs = await getDocs(postsQ);
 
-      await postsDocs.docs.forEach((doc) => {
-        res.push(JSON.parse(JSON.stringify(doc?.data())));
-      });
-      setPosts(res.reverse());
-      console.log(res);
+        await postsDocs.docs.forEach((doc) => {
+          res.push(JSON.parse(JSON.stringify(doc?.data())));
+        });
+        setPosts(res.reverse());
+      }
     };
     updatePosts();
   }, []);
 
-  // const posts = [
-  //   {
-  //     id: 1,
-  //     username: "Credo",
-  //     userImg: "https://i.pravatar.cc",
-  //     caption: "Monkey!",
-  //   },
-  //   {
-  //     id: 2,
-  //     username: "Credo",
-  //     userImg: "https://i.pravatar.cc",
-  //     caption: "Monkey!",
-  //   },
-  //   {
-  //     id: 3,
-  //     username: "Credo",
-  //     userImg: "https://i.pravatar.cc",
-  //     caption: "Monkey!",
-  //   },
-  //   {
-  //     id: 4,
-  //     username: "Credo",
-  //     userImg: "https://i.pravatar.cc",
-  //     caption: "Monkey!",
-  //   },
-  // ];
   return (
     <div>
       {posts.map((post: any, index: any) => (
@@ -77,6 +52,7 @@ const Posts = () => {
           caption={post?.caption}
           imageURL={post?.imageURL}
           uid={post?.uid}
+          date={post?.timeStamp}
         />
       ))}
     </div>
