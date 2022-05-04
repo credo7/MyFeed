@@ -36,6 +36,11 @@ const SignUp = () => {
     setLoading(false);
   }
 
+  const handleClickSignIn = (e: any) => {
+    e.preventDefault();
+    router.push("signin");
+  };
+
   return (
     <>
       <Head>
@@ -51,64 +56,63 @@ const SignUp = () => {
               src="/LoginPics/first.png"
             />
           </div>
-          <div className="flex flex-col space-y-4">
-            <div
-              className="bg-white flex flex-col w-[350px] justify-center items-center box border-[1px]
-       rounded-md"
-            >
-              <div className="h-[100px] flex items-center justify-center">
-                <img className="h-[51px] w-auto" src="/instTextLogo.svg" />
-              </div>
+          <div
+            className="bg-white flex flex-col w-[350px] justify-center items-center box border-[1px]
+       rounded-[32px] py-[20px] border-gray-50 shadow-sm"
+          >
+            <div className="h-[100px] flex items-center justify-center">
+              <img className="h-[51px] w-auto" src="/instTextLogo.svg" />
+            </div>
 
-              <div className="flex flex-col w-full space-y-4 px-10 items-center justify-center ">
-                <form className="space-y-2" onSubmit={handleSubmit as any}>
-                  <input
-                    ref={emailRef}
-                    required
-                    type="email"
-                    minLength={4}
-                    placeholder="Email"
-                    className="placeholder-gray-400 text-sm px-2 rounded-md border-[1px] border-gray-200 outline-none w-full focus:ring-0 focus:border-blue-500"
-                  />
-                  <input
-                    ref={nameRef}
-                    minLength={2}
-                    required
-                    placeholder="Full name"
-                    className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] focus:ring-0 outline-none w-full focus:border-blue-500"
-                  />
-                  <input
-                    ref={usernameRef}
-                    minLength={4}
-                    required
-                    placeholder="Username"
-                    className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] border-gray-200 focus:ring-0 outline-none w-full focus:border-blue-500"
-                  />
-                  <input
-                    ref={passwordRef}
-                    minLength={6}
-                    required
-                    type="password"
-                    placeholder="Password"
-                    className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-md border-[1px] border-gray-200 focus:ring-0 outline-none w-full focus:border-blue-500"
-                  />
-                  {error && <label>{error}</label>}
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="h-[32px] bg-blue-500 text-white font-medium text-sm rounded-md w-full"
-                  >
-                    Sign up
-                  </button>
-                </form>
-                <div className="flex flex-row">
-                  <p className="font-medium text-gray-600">OR</p>
-                </div>
-                {/* //-----For providers--------// */}
-                {/* {Object.values(providers).map((provider: any) => (
+            <div className="flex flex-col w-full space-y-2 px-10 items-center justify-center ">
+              <form className="space-y-3" onSubmit={handleSubmit as any}>
+                <input
+                  ref={emailRef}
+                  required
+                  type="email"
+                  minLength={4}
+                  placeholder="Email"
+                  className="placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md outline-none w-full focus:ring-0 focus:border-blue-500"
+                />
+                <input
+                  ref={nameRef}
+                  minLength={2}
+                  required
+                  placeholder="Full name"
+                  className="h-[38px] 
+         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+                />
+                <input
+                  ref={usernameRef}
+                  minLength={4}
+                  required
+                  placeholder="Username"
+                  className="h-[38px] 
+         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+                />
+                <input
+                  ref={passwordRef}
+                  minLength={6}
+                  required
+                  type="password"
+                  placeholder="Password"
+                  className="h-[38px] 
+         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+                />
+                {error && <label>{error}</label>}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="h-[32px] bg-blue-500 text-white font-medium text-sm rounded-[32px] w-full"
+                >
+                  Sign up
+                </button>
+              </form>
+              <div className="flex flex-row">
+                {/* <p className="font-medium text-gray-600">OR</p> */}
+              </div>
+              {/* //-----For providers--------// */}
+              {/* {Object.values(providers).map((provider: any) => (
                   <div className="pb-6" key={provider.name}>
                     <button
                       className=" text-gray-400"
@@ -118,10 +122,18 @@ const SignUp = () => {
                     </button>
                   </div>
                 ))} */}
+              <div className="bg-white flex flex-col w-[350px] h-[40px] justify-center items-center box">
+                <div className="flex flex-row space-x-2">
+                  <p className="text-sm">Already have an account?</p>
+                  <button
+                    onClick={handleClickSignIn}
+                    className="inline text-blue-500 font-medium text-sm"
+                  >
+                    Sign in
+                  </button>
+                </div>
               </div>
-            </div>
-            <div>
-              <button className="text-white text-sm font-medium bg-red-400 rounded-md w-[350px] h-[40px]">
+              <button className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-sm">
                 Log in as Guest
               </button>
             </div>

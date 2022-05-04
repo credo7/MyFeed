@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+#nest.js
+/nestjs-graphql
+
 # production
 /build
 
