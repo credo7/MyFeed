@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    if (!currentUser) router.push("/auth/signin");
+    if (!currentUser) router.push(`/auth/signin`);
   }, [currentUser]);
 
   return (

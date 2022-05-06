@@ -28,7 +28,7 @@ const Profile = (props: any) => {
   const [isFollower, setIsFollower] = useState(false);
 
   useEffect(() => {
-    if (!currentUser) router.push("/auth/signin");
+    if (!currentUser) router.push(`${process.env.BASE_PATH}/auth/signin`);
   }, [currentUser]);
 
   const isOwner = currentUser.uid && currentUser.uid == props.user.uid;

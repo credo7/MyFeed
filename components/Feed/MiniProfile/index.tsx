@@ -6,7 +6,7 @@ const MiniProfile = () => {
   const router = useRouter();
 
   const goToProfilePage = () => {
-    router.push("/" + userSecondaryInfo?.username);
+    router.push(`${process.env.BASE_PATH}/${userSecondaryInfo?.username}`);
   };
 
   return (

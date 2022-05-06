@@ -13,7 +13,7 @@ const SignIn = () => {
   const passwordRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   useEffect(() => {
-    if (currentUser) router.push("/");
+    if (currentUser) router.push(`${process.env.BASE_PATH}/`);
   }, [currentUser]);
 
   async function handleSubmit(e: MouseEvent) {
@@ -30,7 +30,7 @@ const SignIn = () => {
 
   const handleClickSignUp = (e: any) => {
     e.preventDefault();
-    router.push("signup");
+    router.push(`${process.env.BASE_PATH}/signup`);
   };
 
   return (
