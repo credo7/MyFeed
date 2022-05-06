@@ -1,5 +1,5 @@
 import { BsThreeDots } from "react-icons/bs";
-import { HiOutlinePaperAirplane } from "react-icons/Hi";
+import { HiOutlinePaperAirplane } from "react-icons/hi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { CgBookmark } from "react-icons/cg";

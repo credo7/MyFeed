@@ -6,7 +6,7 @@ import {
   // AiOutlinePlusCircle,
   AiOutlineHeart,
 } from "react-icons/ai";
-import { HiOutlinePaperAirplane, HiOutlineUserGroup } from "react-icons/Hi";
+import { HiOutlinePaperAirplane, HiOutlineUserGroup } from "react-icons/hi";
 import { BsPatchPlus } from "react-icons/bs";
 import { useRecoilState } from "recoil";
 import { modalState } from "../../atoms/modalAtom";
