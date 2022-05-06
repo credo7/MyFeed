@@ -1,6 +1,6 @@
 {
-  "homepage" : "https://credo7.github.io/MyFeed",
-  "name": "myfeed",
+  "homepage" : "https://credo7.github.io",
+  "name": "MyFeed",
   "version": "0.1.0",
   "private": true,
   "scripts": {
