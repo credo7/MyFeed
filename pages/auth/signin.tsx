@@ -48,10 +48,10 @@ const SignIn = () => {
           <div className="min-h-[580px] flex flex-row vh_for_iphones w-full items-center justify-center">
             <div className="relative flex flex-row items-start justify-start">
               <div className="hidden lg:block">
-                <img className="h-[582px]" src="/LoginPics/background.png" />
+                <img className="h-[582px]" src={`${process.env.BASE_PATH}/LoginPics/background.png`} />
                 <img
                   className="absolute top-[24px] left-[142px] h-[496px]"
-                  src="/LoginPics/first.png"
+                  src={`${process.env.BASE_PATH}/LoginPics/first.png`}
                 />
               </div>
               <div className="flex flex-col space-y-4">
@@ -60,7 +60,7 @@ const SignIn = () => {
        rounded-[32px] border-gray-100 shadow-sm"
                 >
                   <div className="h-[100px] flex items-center justify-center">
-                    <img className="h-[51px] w-auto" src="/instTextLogo.svg" />
+                    <img className="h-[51px] w-auto" src={`${process.env.BASE_PATH}/instTextLogo.svg`} />
                   </div>
                   <div className="flex flex-col w-full space-y-4 px-10 items-center justify-center">
                     <form onSubmit={handleSubmit as any} className="space-y-3">

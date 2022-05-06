@@ -13,7 +13,7 @@ const StoriesView = () => {
         <div className="absolute top-0 z-50 w-full h-screen bg-gray-800">
           <img
             className="h-[36px] w-auto absolute top-4 left-4 cursor-pointer white_color"
-            src="instTextLogo.svg"
+            src={`${process.env.BASE_PATH}instTextLogo.svg`}
           />
           <div className="w-full h-full flex items-center justify-center">
             <div className="h-full w-[560px] relative">

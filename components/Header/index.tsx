@@ -106,7 +106,7 @@ const Header = () => {
               <img
                 onClick={goToMainPage}
                 className="h-[29px] w-auto relative top-1 cursor-pointer"
-                src="instTextLogo.svg"
+                src={`${process.env.BASE_PATH}instTextLogo.svg`}
               />
             </div>
             {/* Middle: search Input */}
