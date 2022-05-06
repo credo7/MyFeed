@@ -1,5 +1,6 @@
 {
-  "name": "instagram",
+  "homepage" : "https://credo7.github.io/MyFeed",
+  "name": "myfeed",
   "version": "0.1.0",
   "private": true,
   "scripts": {
