@@ -38,7 +38,7 @@ const SignUp = () => {
 
   const handleClickSignIn = (e: any) => {
     e.preventDefault();
-    router.push(`${process.env.BASE_PATH}/signin`);
+    router.push(`${process.env.BASE_PATH}/auth/signin`);
   };
 
   return (
