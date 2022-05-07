@@ -30,12 +30,12 @@ export function AuthProvider({ children }) {
   }, [currentUser]);
 
   async function signup(email, password, name, username) {
-    await createUserWithEmailAndPassword(auth, email, password);
-    return await getDoc(doc(db, "users", currentUser.uid), {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    return await setDoc(doc(db, "users", cred.user.uid), {
       email,
       name,
       username,
-      uid: currentUser.uid,
+      uid: cred.user.uid,
     });
   }
 
