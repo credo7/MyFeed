@@ -93,11 +93,11 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-full min-h-[60px] border-none flex justify-center items-center">
-        <div className="w-full lg:w-[1024px] md:w-[768px] sm:w-[640px] sm:rounded-[32px] sm:rounded-t-none backdrop-blur-3xl bg-[rgba(255,255,255,0.9)] shadow-sm fixed z-50">
+      <div className="w-full min-h-[50px] sm:min-h-[60px] border-none flex justify-center items-center">
+        <div className="w-full lg:w-[1024px] md:w-[768px] sm:w-[640px] sm:rounded-[32px] sm:rounded-t-none bg-[rgb(254,254,255)] sm:bg-white sm:shadow-sm fixed z-50">
           <div
-            className="min-h-[60px] flex flex-row px-4 justify-between 
-      items-center py-[10px] max-w-[970px] lg:mx-auto"
+            className="min-h-[50px] sm:min-h-[60px] flex flex-row px-4 justify-between 
+      items-center sm:py-[10px] max-w-[970px] lg:mx-auto"
           >
             {/* <div className="cursor-pointer lg:hidden mr-4">
           <IoLogoInstagram className="h-10 w-10" />
@@ -142,8 +142,8 @@ const Header = () => {
               )}
             </div>
             {/* End : Buttons */}
-            <div className="flex flex-row items-center justify-end space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6 relative">
-              <AiFillHome onClick={goToMainPage} className="navbtn" />
+            <div className="flex flex-row items-center justify-end space-x-3 sm:space-x-3 md:space-x-4 lg:space-x-6 relative">
+              <AiFillHome onClick={goToMainPage} className="hidden sm:block navbtn" />
               {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
               <div className="relative">
                 <HiOutlinePaperAirplane className="navbtn rotate-45 relative bottom-1 left-1" />
@@ -156,7 +156,7 @@ const Header = () => {
                 className="navbtn w-6 h-6"
               />
               {/* <TiCompass className="navbtn h-8 w-8 rotate-180" /> */}
-              <AiOutlineHeart className="navbtn w-8 h-8" />
+              <AiOutlineHeart className="hidden navbtn w-8 h-8" />
               <div
                 className="cursor-pointer"
                 onClick={() => setOpenProfileModal(!openProfileModal)}
@@ -173,7 +173,7 @@ const Header = () => {
                 )}
               </div>
               {openProfileModal ? (
-                <div className="absolute top-[76px] right-0 bg-white border-[1px] border-gray-200 rounded-[32px] shadow-md flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
+                <div className="absolute top-[76px] right-0 bg-[rgb(254,254,255)] border-[1px] border-gray-200 rounded-[32px] shadow-md flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
                   {/* <p className="mt-4 mb-6">username</p> */}
                   {currentUser.photoURL || selectedFile ? (
                     <img

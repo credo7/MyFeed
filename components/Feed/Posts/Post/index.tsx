@@ -115,8 +115,8 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
 
   return (
     <div
-      className="bg-white border border-gray-50 rounded-[32px] my-6 first:-my-[2px] sm:first:my-6
-     border-x-0 sm:border-x-[1px] shadow-sm"
+      className="sm:bg-white sm:border border-gray-50 rounded-b-[32px] sm:rounded-[32px] my-6 first:-my-[2px] sm:first:my-6
+     border-x-0 sm:border-x-[1px] sm:shadow-sm"
     >
       {/* Header */}
       <div className="flex flew-row w-full justify-between items-center px-5 my-3 sm:my-4">
@@ -149,10 +149,10 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
         {/* <FaRegComment className="h-6 w-6" /> */}
         {/* </div> */}
         <div className="flex flex-row space-x-2 items-center">
-          <div className="flex flex-row items-center space-x-2 rounded-[32px] bg-slate-50 px-2 py-1">
+          <div className="flex flex-row items-center space-x-2 rounded-[32px] bg-gray-800 text-white px-2 py-1">
             <RiArrowDownLine className="w-5 h-5" />
             <p className="font-medium text-md">{likes.length}</p>
-            <RiArrowUpLine className="w-5 h-5" />
+            <RiArrowUpLine className="text-red-500 w-5 h-5" />
           </div>
           <FaRegComment className="h-6 w-6" />
         </div>
@@ -208,7 +208,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
       {/* <div className="px-4 text-gray-400 font-light text-sm truncate"> */}
       {/* </div> */}
       {/* comment input */}
-      <div className="mt-2 bg-slate-50 rounded-b-[32px]">
+      <div className="sm:mt-2 sm:bg-slate-50 sm:rounded-b-[32px]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -219,12 +219,12 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
           {/* <FaRegSmileWink className=" w-8 h-8" /> */}
           <input
             ref={commentInputRef}
-            className="mx-4 w-full h-[40px] px-2 border-0 outline-none bg-transparent"
+            className="sm:mx-4 w-full h-[40px] text-[16px] sm:px-2 border-0 outline-none bg-transparent"
             placeholder="Add a comment"
           />
           <button
             type="submit"
-            className="text-lg font-medium text-blue-500 mx-4"
+            className={"text-lg font-normal text-gray-50 px-3 bg-blue-500 rounded-[32px] sm:mx-4"}
           >
             Post
           </button>

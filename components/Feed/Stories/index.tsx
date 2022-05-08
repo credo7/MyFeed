@@ -48,8 +48,8 @@ const Stories = () => {
 
   return (
     <div
-      className="flex space-x-4 px-5 py-2 sm:py-4 my-4 sm:my-0 bg-white overflow-x-scroll 
-    scrollbar-hide border-y sm:border-x border-gray-50 rounded-[32px] shadow-sm min-h-[118px]"
+      className="flex space-x-4 px-5 py-2 sm:py-4 my-2 sm:my-4 sm:my-0 sm:bg-white overflow-x-scroll 
+    scrollbar-hide sm:border-y sm:border-x sm:border-gray-50 sm:rounded-[32px] sm:shadow-sm sm:min-h-[118px] border-b-[1px] border-b-gray-100"
     >
       {stories.map((story: any, index: any) => (
         <Story key={index} img={story.avatar} username={story.username} />
