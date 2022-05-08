@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../components/Context/AuthContext";
 
 const SignIn = () => {
-  const { signin, currentUser } = useAuth();
+  const { signin, currentUser, signinAsGuest } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [guestLoading, setGuestLoading] = useState(false);
 
   const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const passwordRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -33,6 +34,19 @@ const SignIn = () => {
     router.push(`${process.env.BASE_PATH}/auth/signup`);
   };
 
+  const handleClickSigninAsGuest = async (e: any) => {
+    e.preventDefault();
+    setGuestLoading(true);
+
+    try {
+      await signinAsGuest();
+    } catch (e) {
+      console.log(e);
+    }
+
+    setGuestLoading(false);
+  };
+
   return (
     <>
       {!currentUser ? (
@@ -48,7 +62,10 @@ const SignIn = () => {
           <div className="min-h-[580px] flex flex-row vh_for_iphones w-full items-center justify-center">
             <div className="relative flex flex-row items-start justify-start">
               <div className="hidden lg:block">
-                <img className="h-[582px]" src={`${process.env.BASE_PATH}/LoginPics/background.png`} />
+                <img
+                  className="h-[582px]"
+                  src={`${process.env.BASE_PATH}/LoginPics/background.png`}
+                />
                 <img
                   className="absolute top-[24px] left-[142px] h-[496px]"
                   src={`${process.env.BASE_PATH}/LoginPics/first.png`}
@@ -60,7 +77,10 @@ const SignIn = () => {
        rounded-[32px] border-gray-100 shadow-sm"
                 >
                   <div className="h-[100px] flex items-center justify-center">
-                    <img className="h-[51px] w-auto" src={`${process.env.BASE_PATH}/instTextLogo.svg`} />
+                    <img
+                      className="h-[51px] w-auto"
+                      src={`${process.env.BASE_PATH}/instTextLogo.svg`}
+                    />
                   </div>
                   <div className="flex flex-col w-full space-y-4 px-10 items-center justify-center">
                     <form onSubmit={handleSubmit as any} className="space-y-3">
@@ -107,8 +127,11 @@ const SignIn = () => {
                       </div>
                     </div>
                   </div>{" "}
-                  <button className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-2xl my-2">
-                    Log in as Guest
+                  <button
+                    onClick={handleClickSigninAsGuest}
+                    className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-2xl my-2"
+                  >
+                    {guestLoading ? "Loading..." : "Log in as Guest"}
                   </button>
                 </div>
               </div>

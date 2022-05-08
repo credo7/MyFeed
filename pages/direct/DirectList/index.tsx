@@ -27,6 +27,78 @@ const chatsData = [
     timeStamp: "16:00",
     unreadMsgCount: 0,
   },
+  {
+    username: "vitaly",
+    lastMsg: "Let's go for a walk",
+    timeStamp: "16:00",
+    unreadMsgCount: 2,
+  },
+  {
+    username: "bandrw",
+    lastMsg: "Are u good man",
+    timeStamp: "17:30",
+    unreadMsgCount: 0,
+  },
+  {
+    username: "evanguy",
+    lastMsg: "Wow.. it's crazy!",
+    timeStamp: "16:00",
+    unreadMsgCount: 7,
+  },
+  {
+    username: "clock",
+    lastMsg: "I don't think so",
+    timeStamp: "16:00",
+    unreadMsgCount: 0,
+  },
+  {
+    username: "vitaly",
+    lastMsg: "Let's go for a walk",
+    timeStamp: "16:00",
+    unreadMsgCount: 2,
+  },
+  {
+    username: "bandrw",
+    lastMsg: "Are u good man",
+    timeStamp: "17:30",
+    unreadMsgCount: 0,
+  },
+  {
+    username: "evanguy",
+    lastMsg: "Wow.. it's crazy!",
+    timeStamp: "16:00",
+    unreadMsgCount: 7,
+  },
+  {
+    username: "clock",
+    lastMsg: "I don't think so",
+    timeStamp: "16:00",
+    unreadMsgCount: 0,
+  },
+  {
+    username: "vitaly",
+    lastMsg: "Let's go for a walk",
+    timeStamp: "16:00",
+    unreadMsgCount: 2,
+  },
+  {
+    username: "bandrw",
+    lastMsg: "Are u good man",
+    timeStamp: "17:30",
+    unreadMsgCount: 0,
+  },
+  {
+    username: "evanguy",
+    lastMsg: "Wow.. it's crazy!",
+    timeStamp: "16:00",
+    unreadMsgCount: 7,
+  },
+  {
+    username: "clock",
+    lastMsg: "I don't think so",
+    timeStamp: "16:00",
+    unreadMsgCount: 0,
+  },
 ];
 
 export default function DirectList() {
@@ -50,7 +122,7 @@ export default function DirectList() {
   };
 
   return (
-    <div className="mx-auto min-w-screen flex flex-col rounded-[32px] py-3 pt-4">
+    <div className="mx-auto min-w-screen h-full flex flex-col rounded-[32px] py-3 pt-4 overflow-hidden">
       <p className="ml-5 font-medium text-2xl">
         Messages<span className="ml-1 text-blue-500">({unredMessages})</span>
       </p>
@@ -62,7 +134,7 @@ export default function DirectList() {
         />
         <BiSearch className="absolute top-[22px] left-[35px] text-gray-400" />
       </div>
-      <div className=" overflow-y-scroll">
+      <div className="max-h-full overflow-y-scroll scrollbar-hide">
         {chats.map((chat, index) => {
           return (
             <div key={index}>

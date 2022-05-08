@@ -150,9 +150,9 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
         {/* </div> */}
         <div className="flex flex-row space-x-2 items-center">
           <div className="flex flex-row items-center space-x-2 rounded-[32px] bg-gray-800 text-white px-2 py-1">
-            <RiArrowDownLine className="w-5 h-5" />
+            <RiArrowDownLine className="w-7 h-7" />
             <p className="font-medium text-md">{likes.length}</p>
-            <RiArrowUpLine className="text-red-500 w-5 h-5" />
+            <RiArrowUpLine className="text-red-500 w-7 h-7" />
           </div>
           <FaRegComment className="h-6 w-6" />
         </div>

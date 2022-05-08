@@ -70,6 +70,11 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
+  function signinAsGuest() {
+    console.log(123);
+    return signInWithEmailAndPassword(auth, "guest@gmail.com", "guest123");
+  }
+
   function logout() {
     return signOut(auth);
   }
@@ -104,6 +109,7 @@ export function AuthProvider({ children }) {
     updateEmail,
     updatePassword,
     userSecondaryInfo,
+    signinAsGuest,
   };
 
   return (

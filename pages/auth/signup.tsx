@@ -8,7 +8,8 @@ import router from "next/router";
 const SignUp = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signup, currentUser } = useAuth();
+  const [guestLoading, setGuestLoading] = useState(false);
+  const { signup, currentUser, signinAsGuest } = useAuth();
 
   const usernameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const nameRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -39,6 +40,19 @@ const SignUp = () => {
   const handleClickSignIn = (e: any) => {
     e.preventDefault();
     router.push(`${process.env.BASE_PATH}/auth/signin`);
+  };
+
+  const handleClickSigninAsGuest = async (e: any) => {
+    e.preventDefault();
+    setGuestLoading(true);
+
+    try {
+      await signinAsGuest();
+    } catch (e) {
+      setError("Some error");
+    }
+
+    setGuestLoading(false);
   };
 
   return (
@@ -81,15 +95,15 @@ const SignUp = () => {
                   className="placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md outline-none w-full focus:ring-0 focus:border-blue-500"
                 />
                 <input
-                ref={nameRef}
-                minLength={2}
-                required
-                type="text"
-                placeholder="Full name"
-                className="h-[38px] 
+                  ref={nameRef}
+                  minLength={2}
+                  required
+                  type="text"
+                  placeholder="Full name"
+                  className="h-[38px] 
        placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
-              />
-              <input
+                />
+                <input
                   ref={usernameRef}
                   minLength={4}
                   required
@@ -141,8 +155,11 @@ const SignUp = () => {
                   </button>
                 </div>
               </div>
-              <button className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-sm">
-                Log in as Guest
+              <button
+                onClick={handleClickSigninAsGuest}
+                className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-sm"
+              >
+                {guestLoading ? "Loading..." : "Log in as Guest"}
               </button>
             </div>
           </div>
@@ -151,15 +168,5 @@ const SignUp = () => {
     </>
   );
 };
-
-// export async function getServerSideProps() {
-//   const providers = await getProviders();
-
-//   return {
-//     props: {
-//       providers,
-//     },
-//   };
-// }
 
 export default SignUp;
