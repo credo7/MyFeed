@@ -78,23 +78,25 @@ const SignUp = () => {
                   type="email"
                   minLength={4}
                   placeholder="Email"
-                  className="placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md outline-none w-full focus:ring-0 focus:border-blue-500"
+                  className="placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md outline-none w-full focus:ring-0 focus:border-blue-500"
                 />
                 <input
-                  ref={nameRef}
-                  minLength={2}
-                  required
-                  placeholder="Full name"
-                  className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
-                />
-                <input
+                ref={nameRef}
+                minLength={2}
+                required
+                type="text"
+                placeholder="Full name"
+                className="h-[38px] 
+       placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+              />
+              <input
                   ref={usernameRef}
                   minLength={4}
                   required
+                  type="text"
                   placeholder="Username"
                   className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+         placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
                 />
                 <input
                   ref={passwordRef}
@@ -103,7 +105,7 @@ const SignUp = () => {
                   type="password"
                   placeholder="Password"
                   className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+         placeholder-gray-400 px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500 text-[16px]"
                 />
                 {error && <label>{error}</label>}
                 <button

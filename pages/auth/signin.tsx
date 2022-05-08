@@ -69,14 +69,14 @@ const SignIn = () => {
                         placeholder="email"
                         type="email"
                         className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
+         placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full focus:border-blue-500"
                       />
                       <input
                         ref={passwordRef}
                         type="password"
                         placeholder="Password"
                         className="h-[38px] 
-         placeholder-gray-400 text-sm px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full"
+         placeholder-gray-400 text-[16px] px-2 rounded-[10px] border-[1px] border-gray-100 shadow-md focus:ring-0 outline-none w-full"
                       />
                       <button
                         type="submit"
