@@ -123,12 +123,12 @@ const Header = () => {
                 placeholder="Search"
               />
               {usernames.length > 0 ? (
-                <div className="absolute top-[32px] w-full max-h-[300px] bg-gray-50 overflow-y-scroll rounded-sm shadow-lg">
+                <div className="absolute top-[32px] w-full max-h-[300px] bg-gray-50 overflow-y-scroll rounded-[32px] shadow-lg">
                   <ul className="px-4 py-2">
                     {usernames.map((username: string) => {
                       return (
                         <li
-                          className="w-full h-full cursor-pointer"
+                          className="w-full h-full cursor-pointer font-light"
                           onClick={() => goToUserPage(username)}
                         >
                           {username}
@@ -173,13 +173,13 @@ const Header = () => {
                 )}
               </div>
               {openProfileModal ? (
-                <div className="absolute top-[76px] right-0 bg-white border-[1px] border-gray-200 rounded-sm flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
+                <div className="absolute top-[76px] right-0 bg-white border-[1px] border-gray-200 rounded-[32px] shadow-md flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
                   {/* <p className="mt-4 mb-6">username</p> */}
-                  {currentUser.photoURL ? (
+                  {currentUser.photoURL || selectedFile ? (
                     <img
                       onClick={() => filePickerRef.current.click()}
                       className="h-28 w-28 object-cover rounded-full cursor-pointer mt-[12px]"
-                      src={currentUser.photoURL}
+                      src={selectedFile || currentUser.photoURL}
                     />
                   ) : (
                     <FaRegUserCircle
@@ -196,14 +196,14 @@ const Header = () => {
                   />
                   {selectedFile ? (
                     <button
-                      className="mt-5 mb-1 bg-blue-400 h-[28px] w-[112px] text-white text-lg rounded-sm font-light"
+                      className="mt-5 mb-1 bg-gray-800 h-[28px] w-[112px] text-white text-sm rounded-[32px] font-light"
                       onClick={uploadPicture}
                     >
                       {loading ? "Loading..." : "Upload"}
                     </button>
                   ) : (
                     <button
-                      className="text-sm text-gray-400 mt-5 mb-1 h-[28px] w-[112px]"
+                      className="text-sm mt-5 mb-1 w-[112px] bg-gray-800 text-white rounded-[32px] py-2 px-4"
                       onClick={() => filePickerRef.current.click()}
                     >
                       Click to change

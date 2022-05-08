@@ -88,21 +88,22 @@ const Modal = () => {
   return (
     <>
       {open && (
-        <div className=" w-full h-screen fixed bg-[#030303c7] top-0 z-50 scrollbar-hide">
-          <div className="w-full h-screen flex items-center justify-center">
-            <div className="flex flex-col w-[50%] h-[80%] min-h-[400px] bg-white border-[1px] border-gray-300 rounded-lg min-w-[250px] relative">
+        <div className=" w-full vh_for_iphones fixed bg-[#030303c7] top-0 z-50 scrollbar-hide">
+          <div className="w-full vh_for_iphones flex items-center justify-center">
+            <div className="flex flex-col w-[90%] md:w-[50%] h-[80%] min-h-[400px] bg-white border-[1px] border-gray-300 rounded-lg min-w-[250px] relative">
               <div className="min-h-[50px] flex h-14 justify-center items-center w-full border-b-[1px]">
                 <p>Create new post</p>
               </div>
               <div className="flex flex-col h-full justify-center items-center pb-6">
                 <div className="flex justify-center items-center h-[60%] w-full min-h-[80px] py-4">
                   {selectedFile ? (
-                    <img
-                      className="max-h-full max-w-full h-full w-auto"
-                      onClick={() => setSelectedFile(null)}
-                      src={selectedFile}
-                      alt="uploaded_img"
-                    />
+                    <div className="flex items-center justify-center h-[300px] md:h-[400px] overflow-hidden">
+                      <img
+                        onClick={() => setSelectedFile(null)}
+                        src={selectedFile}
+                        alt="uploaded_img"
+                      />
+                    </div>
                   ) : (
                     <AiOutlineCloudUpload
                       onClick={() => filePickerRef.current.click()}
@@ -135,7 +136,7 @@ const Modal = () => {
                     <input
                       ref={captionRef}
                       placeholder="Please enter a caption"
-                      className=" py-1 px-4 outline-none border-[1px] rounded-md text-gray-500 w-[192px] font-light"
+                      className=" py-1 px-4 outline-none text-[16px] border-[1px] rounded-md text-gray-500 w-[192px] font-light"
                     />
                     <button
                       hidden={!selectedFile}
