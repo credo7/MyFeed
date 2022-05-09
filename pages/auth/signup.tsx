@@ -1,12 +1,11 @@
-import Head from "next/head";
-import { AiOutlineGoogle } from "react-icons/ai";
-import { getProviders, signIn as signIntoProvider } from "next-auth/react";
-import { useAuth } from "../../components/Context/AuthContext";
-import { useEffect, useRef, useState } from "react";
-import router from "next/router";
+import Head from 'next/head';
+import router from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+
+import { useAuth } from '../../components/Context/AuthContext';
 
 const SignUp = () => {
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
   const { signup, currentUser, signinAsGuest } = useAuth();
@@ -29,10 +28,10 @@ const SignUp = () => {
         emailRef.current.value,
         passwordRef.current.value,
         nameRef.current.value,
-        usernameRef.current.value
+        usernameRef.current.value,
       );
     } catch (e) {
-      setError("Some error");
+      setError('Some error');
     }
     setLoading(false);
   }
@@ -49,7 +48,7 @@ const SignUp = () => {
     try {
       await signinAsGuest();
     } catch (e) {
-      setError("Some error");
+      setError('Some error');
     }
 
     setGuestLoading(false);
@@ -61,7 +60,7 @@ const SignUp = () => {
         <title>Sign up</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="background_gray min-h-[580px] flex flex-row vh_for_iphones w-full items-center justify-center">
+      <div className=" min-h-[580px] flex flex-row vh_for_iphones w-full items-center justify-center">
         <div className="relative flex flex-row items-start justify-start">
           <div className="hidden lg:block">
             <img
@@ -75,7 +74,7 @@ const SignUp = () => {
           </div>
           <div
             className="bg-white flex flex-col w-[350px] justify-center items-center box border-[1px]
-       rounded-[32px] py-[20px] border-gray-50 shadow-sm"
+       rounded-[32px] py-[20px] border-gray-100 shadow-sm"
           >
             <div className="h-[100px] flex items-center justify-center">
               <img
@@ -127,7 +126,7 @@ const SignUp = () => {
                   disabled={loading}
                   className="h-[32px] bg-blue-500 text-white font-medium text-sm rounded-[32px] w-full"
                 >
-                  Sign up
+                  {loading ? 'loading...' : 'Sign up'}
                 </button>
               </form>
               <div className="flex flex-row">
@@ -144,7 +143,7 @@ const SignUp = () => {
                     </button>
                   </div>
                 ))} */}
-              <div className="bg-white flex flex-col w-[350px] h-[40px] justify-center items-center box">
+              <div className="flex flex-col w-[350px] h-[40px] justify-center items-center box">
                 <div className="flex flex-row space-x-2">
                   <p className="text-sm">Already have an account?</p>
                   <button
@@ -159,7 +158,7 @@ const SignUp = () => {
                 onClick={handleClickSigninAsGuest}
                 className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-sm"
               >
-                {guestLoading ? "Loading..." : "Log in as Guest"}
+                {guestLoading ? 'Loading...' : 'Log in as Guest'}
               </button>
             </div>
           </div>

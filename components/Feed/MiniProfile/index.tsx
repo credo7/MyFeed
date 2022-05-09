@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
-import { useAuth } from "../../Context/AuthContext";
+import { useRouter } from 'next/router';
+
+import { useAuth } from '../../Context/AuthContext';
 
 const MiniProfile = () => {
   const { logout, currentUser, userSecondaryInfo } = useAuth();
@@ -17,7 +18,7 @@ const MiniProfile = () => {
           src={
             currentUser.photoURL
               ? currentUser.photoURL
-              : "https://i.pravatar.cc"
+              : 'https://i.pravatar.cc'
           }
           className="w-14 h-14 rounded-full object-cover cursor-pointer"
         />

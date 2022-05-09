@@ -1,23 +1,18 @@
-import { TiCompass } from "react-icons/ti";
-import { BiSearch } from "react-icons/bi";
-import {
-  AiFillHome,
-  // AiOutlineMenu,
-  // AiOutlinePlusCircle,
-  AiOutlineHeart,
-} from "react-icons/ai";
-import { HiOutlinePaperAirplane, HiOutlineUserGroup } from "react-icons/hi";
-import { BsPatchPlus } from "react-icons/bs";
-import { useRecoilState } from "recoil";
-import { modalState } from "../../atoms/modalAtom";
-import { useAuth } from "../Context/AuthContext";
-import { FaRegUserCircle } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { db, storage } from "../../firebase";
-import { updateProfile } from "firebase/auth";
-import { useRouter } from "next/router";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { updateProfile } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import { AiFillHome, AiOutlineHeart } from 'react-icons/ai';
+import { BiSearch } from 'react-icons/bi';
+import { BsPatchPlus } from 'react-icons/bs';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { HiOutlinePaperAirplane } from 'react-icons/hi';
+import { useRecoilState } from 'recoil';
+
+import { modalState } from '../../atoms/modalAtom';
+import { db, storage } from '../../firebase';
+import { useAuth } from '../Context/AuthContext';
 
 const Header = () => {
   const [open, setOpen] = useRecoilState(modalState);
@@ -48,9 +43,9 @@ const Header = () => {
 
     setLoading(true);
     const imageRef = ref(storage, `${currentUser.uid}/profile.png`);
-    imageRef.bucket.replace("appspot.com", "firebaseapp.com");
-    await uploadString(imageRef, selectedFile, "data_url")
-      .then(async (snapshot) => {
+    imageRef.bucket.replace('appspot.com', 'firebaseapp.com');
+    await uploadString(imageRef, selectedFile, 'data_url')
+      .then(async () => {
         const downloadImageURL = await getDownloadURL(imageRef);
         updateProfile(currentUser, { image: downloadImageURL } as any);
       })
@@ -65,21 +60,21 @@ const Header = () => {
   };
 
   const goToUserPage = (username: string) => {
-    searchRef.current.value = "";
+    searchRef.current.value = '';
     setUsernames([]);
     router.push(`${process.env.BASE_PATH}/${username}`);
   };
 
   const search = async (str: string) => {
     const end = str.replace(/.$/, (c) =>
-      String.fromCharCode(c.charCodeAt(0) + 1)
+      String.fromCharCode(c.charCodeAt(0) + 1),
     );
     const querySnapshot = await getDocs(
       query(
-        collection(db, "users"),
-        where("username", ">=", str),
-        where("username", "<", end)
-      )
+        collection(db, 'users'),
+        where('username', '>=', str),
+        where('username', '<', end),
+      ),
     );
 
     const res = [] as string[];
@@ -93,7 +88,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-full min-h-[50px] sm:min-h-[60px] border-none flex justify-center items-center">
+      <div className="relative w-full min-h-[50px] sm:min-h-[60px] border-none flex justify-center items-center">
         <div className="w-full lg:w-[1024px] md:w-[768px] sm:w-[640px] sm:rounded-[32px] sm:rounded-t-none bg-[rgb(254,254,255)] sm:bg-white sm:shadow-sm fixed z-50">
           <div
             className="min-h-[50px] sm:min-h-[60px] flex flex-row px-4 justify-between 
@@ -125,9 +120,10 @@ const Header = () => {
               {usernames.length > 0 ? (
                 <div className="absolute top-[32px] w-full max-h-[300px] bg-gray-50 overflow-y-scroll rounded-[32px] shadow-lg">
                   <ul className="px-4 py-2">
-                    {usernames.map((username: string) => {
+                    {usernames.map((username: string, index: number) => {
                       return (
                         <li
+                          key={index}
                           className="w-full h-full cursor-pointer font-light"
                           onClick={() => goToUserPage(username)}
                         >
@@ -143,7 +139,10 @@ const Header = () => {
             </div>
             {/* End : Buttons */}
             <div className="flex flex-row items-center justify-end space-x-3 sm:space-x-3 md:space-x-4 lg:space-x-6 relative">
-              <AiFillHome onClick={goToMainPage} className="hidden sm:block navbtn" />
+              <AiFillHome
+                onClick={goToMainPage}
+                className="hidden sm:block navbtn"
+              />
               {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
               <div className="relative">
                 <HiOutlinePaperAirplane className="navbtn rotate-45 relative bottom-1 left-1" />
@@ -161,7 +160,7 @@ const Header = () => {
                 className="cursor-pointer"
                 onClick={() => setOpenProfileModal(!openProfileModal)}
               >
-                {" "}
+                {' '}
                 {/* TODO Tooltip */}
                 {currentUser.photoURL ? (
                   <img
@@ -199,7 +198,7 @@ const Header = () => {
                       className="mt-5 mb-1 bg-gray-800 h-[28px] w-[112px] text-white text-sm rounded-[32px] font-light"
                       onClick={uploadPicture}
                     >
-                      {loading ? "Loading..." : "Upload"}
+                      {loading ? 'Loading...' : 'Upload'}
                     </button>
                   ) : (
                     <button

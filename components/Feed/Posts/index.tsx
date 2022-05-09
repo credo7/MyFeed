@@ -1,15 +1,9 @@
-import {
-  collection,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { db } from "../../../firebase";
-import { useAuth } from "../../Context/AuthContext";
-import Post from "./Post";
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+
+import { db } from '../../../firebase';
+import { useAuth } from '../../Context/AuthContext';
+import Post from './Post';
 
 const Posts = () => {
   const { currentUser } = useAuth();
@@ -18,18 +12,18 @@ const Posts = () => {
   useEffect(() => {
     const updatePosts = async () => {
       const res = [] as any;
-      const userRef = collection(db, "users");
-      const q = query(userRef, where("uid", "==", currentUser.uid));
+      const userRef = collection(db, 'users');
+      const q = query(userRef, where('uid', '==', currentUser.uid));
       const userDocs = await getDocs(q);
 
       const followings = userDocs?.docs[0]?.data()?.followings;
 
-      const postsRef = collection(db, "posts");
+      const postsRef = collection(db, 'posts');
       if (followings?.length > 0) {
         const postsQ = query(
           postsRef,
-          where("user_uid", "in", followings),
-          orderBy("timeStamp")
+          where('user_uid', 'in', followings),
+          orderBy('timeStamp'),
         );
         const postsDocs = await getDocs(postsQ);
 

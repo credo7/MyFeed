@@ -1,13 +1,14 @@
-import { useContext, useState, useEffect, createContext } from "react";
-import { auth, db, storage, app } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
   signOut,
-} from "firebase/auth";
-import { setDoc, doc, getDoc, query, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+  updateProfile,
+} from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import { auth, db, storage } from '../../firebase';
 
 const AuthContext = createContext();
 
@@ -31,16 +32,19 @@ export function AuthProvider({ children }) {
 
   async function signup(email, password, name, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    return await setDoc(doc(db, "users", cred.user.uid), {
+    console.log(123)
+    await setDoc(doc(db, 'users', cred.user.uid), {
       email,
       name,
       username,
       uid: cred.user.uid,
     });
+    console.log(456)
+    return
   }
 
   const updateUserSecondaryInfo = async () => {
-    const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+    const docSnap = await getDoc(doc(db, 'users', currentUser.uid));
 
     if (docSnap.exists()) {
       setUserSecondaryInfo(docSnap.data());
@@ -54,7 +58,7 @@ export function AuthProvider({ children }) {
         const userDoc = doc(db, `users/${currentUser.uid}`);
         updateDoc(userDoc, { photoURL: url });
       })
-      .catch((e) => {
+      .catch(() => {
         console.log("Opps.. You haven't got picture");
       });
 
@@ -71,8 +75,7 @@ export function AuthProvider({ children }) {
   }
 
   function signinAsGuest() {
-    console.log(123);
-    return signInWithEmailAndPassword(auth, "guest@gmail.com", "guest123");
+    return signInWithEmailAndPassword(auth, 'guest@gmail.com', 'guest123');
   }
 
   function logout() {

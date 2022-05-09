@@ -1,102 +1,103 @@
-import { useState, useEffect } from "react";
-import { BiSearch } from "react-icons/bi";
-import DirectCell from "./DirectCell";
+import { useEffect, useState } from 'react';
+import { BiSearch } from 'react-icons/bi';
+
+import DirectCell from './DirectCell';
 
 const chatsData = [
   {
-    username: "vitaly",
+    username: 'vitaly',
     lastMsg: "Let's go for a walk",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 2,
   },
   {
-    username: "bandrw",
-    lastMsg: "Are u good man",
-    timeStamp: "17:30",
+    username: 'bandrw',
+    lastMsg: 'Are u good man',
+    timeStamp: '17:30',
     unreadMsgCount: 0,
   },
   {
-    username: "evanguy",
+    username: 'evanguy',
     lastMsg: "Wow.. it's crazy!",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 7,
   },
   {
-    username: "clock",
+    username: 'clock',
     lastMsg: "I don't think so",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 0,
   },
   {
-    username: "vitaly",
+    username: 'vitaly',
     lastMsg: "Let's go for a walk",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 2,
   },
   {
-    username: "bandrw",
-    lastMsg: "Are u good man",
-    timeStamp: "17:30",
+    username: 'bandrw',
+    lastMsg: 'Are u good man',
+    timeStamp: '17:30',
     unreadMsgCount: 0,
   },
   {
-    username: "evanguy",
+    username: 'evanguy',
     lastMsg: "Wow.. it's crazy!",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 7,
   },
   {
-    username: "clock",
+    username: 'clock',
     lastMsg: "I don't think so",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 0,
   },
   {
-    username: "vitaly",
+    username: 'vitaly',
     lastMsg: "Let's go for a walk",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 2,
   },
   {
-    username: "bandrw",
-    lastMsg: "Are u good man",
-    timeStamp: "17:30",
+    username: 'bandrw',
+    lastMsg: 'Are u good man',
+    timeStamp: '17:30',
     unreadMsgCount: 0,
   },
   {
-    username: "evanguy",
+    username: 'evanguy',
     lastMsg: "Wow.. it's crazy!",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 7,
   },
   {
-    username: "clock",
+    username: 'clock',
     lastMsg: "I don't think so",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 0,
   },
   {
-    username: "vitaly",
+    username: 'vitaly',
     lastMsg: "Let's go for a walk",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 2,
   },
   {
-    username: "bandrw",
-    lastMsg: "Are u good man",
-    timeStamp: "17:30",
+    username: 'bandrw',
+    lastMsg: 'Are u good man',
+    timeStamp: '17:30',
     unreadMsgCount: 0,
   },
   {
-    username: "evanguy",
+    username: 'evanguy',
     lastMsg: "Wow.. it's crazy!",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 7,
   },
   {
-    username: "clock",
+    username: 'clock',
     lastMsg: "I don't think so",
-    timeStamp: "16:00",
+    timeStamp: '16:00',
     unreadMsgCount: 0,
   },
 ];
@@ -115,7 +116,7 @@ export default function DirectList() {
     const filteredChats = chatsData.filter((chat) =>
       chat.username
         .toUpperCase()
-        .startsWith(e.currentTarget.value.toUpperCase())
+        .startsWith(e.currentTarget.value.toUpperCase()),
     );
 
     e.currentTarget.value ? setChats(filteredChats) : setChats(chatsData);
@@ -147,7 +148,7 @@ export default function DirectList() {
               {index != chats.length - 1 ? (
                 <hr className="w-[90%] relative left-[5%] border-t-gray-100"></hr>
               ) : (
-                ""
+                ''
               )}
             </div>
           );

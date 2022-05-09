@@ -29,7 +29,7 @@ export function YourMessage({
     <div className="flex flex-row space-x-3">
       <div
         className={`bg-[#eee] px-4 py-2 rounded-[24px] max-w-[80%] ml-4 relative ${
-          isLast && "message_last_left"
+          isLast && 'message_last_left'
         }`}
       >
         <span className="">{text}</span>
@@ -55,7 +55,7 @@ export function MineMessage({
       </p>
       <div
         className={`bg-[#2591ff] text-white mr-4 px-4 py-2 rounded-[24px] max-w-[80%] mt-2 relative ${
-          isLast && "message_last_right"
+          isLast && 'message_last_right'
         }`}
       >
         <span className="">{text}</span>

@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { useRecoilState } from "recoil";
-import { storyViewState } from "../../atoms/modalAtom";
+import { useState } from 'react';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { useRecoilState } from 'recoil';
+
+import { storyViewState } from '../../atoms/modalAtom';
 
 const StoriesView = () => {
   const [positionX, setPositionX] = useState(0);
@@ -19,7 +20,7 @@ const StoriesView = () => {
             <div className="h-full w-[560px] relative">
               <div
                 className={
-                  "flex flex-row h-full absolute " + `left-[-${positionX}px]`
+                  'flex flex-row h-full absolute ' + `left-[-${positionX}px]`
                 }
               >
                 <img

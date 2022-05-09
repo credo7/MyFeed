@@ -1,8 +1,8 @@
-import Head from "next/head";
-// import { AiOutlineGoogle } from "react-icons/ai";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useAuth } from "../../components/Context/AuthContext";
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+
+import { useAuth } from '../../components/Context/AuthContext';
 
 const SignIn = () => {
   const { signin, currentUser, signinAsGuest } = useAuth();
@@ -51,7 +51,7 @@ const SignIn = () => {
     <>
       {!currentUser ? (
         <>
-          {" "}
+          {' '}
           <Head>
             <title>Sign in</title>
             <meta
@@ -102,7 +102,7 @@ const SignIn = () => {
                         type="submit"
                         className="h-[32px] bg-blue-500 text-white font-medium text-sm rounded-[32px] w-full"
                       >
-                        {loading ? "loading..." : "Log in"}
+                        {loading ? 'loading...' : 'Sign in'}
                       </button>
                     </form>
 
@@ -115,7 +115,7 @@ const SignIn = () => {
                     {/* <p className="text-xs font-medium text-slate-700 pb-5">
                       Forgot password?
                     </p> */}
-                    <div className="bg-white flex flex-col w-[350px] h-[40px] justify-center items-center box">
+                    <div className="flex flex-col w-[350px] h-[40px] justify-center items-center box">
                       <div className="flex flex-row space-x-2">
                         <p className="text-sm">Don't have an account?</p>
                         <button
@@ -126,12 +126,12 @@ const SignIn = () => {
                         </button>
                       </div>
                     </div>
-                  </div>{" "}
+                  </div>{' '}
                   <button
                     onClick={handleClickSigninAsGuest}
                     className="text-white text-sm font-medium bg-gray-800 rounded-[32px] w-[300px] h-[40px] shadow-2xl my-2"
                   >
-                    {guestLoading ? "Loading..." : "Log in as Guest"}
+                    {guestLoading ? 'Loading...' : 'Log in as Guest'}
                   </button>
                 </div>
               </div>

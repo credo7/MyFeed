@@ -1,12 +1,3 @@
-import { BsThreeDots } from "react-icons/bs";
-import { HiOutlinePaperAirplane } from "react-icons/hi";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
-import { CgBookmark } from "react-icons/cg";
-import { FaRegSmileWink } from "react-icons/fa"; // TODO можно вынести такие компоненты
-import { RiArrowUpLine, RiArrowDownLine } from "react-icons/ri";
-import Comment from "./Comment";
-import { useEffect, useRef, useState } from "react";
 import {
   arrayRemove,
   arrayUnion,
@@ -14,16 +5,20 @@ import {
   doc,
   getDocs,
   onSnapshot,
-  orderBy,
   query,
-  serverTimestamp,
-  setDoc,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { db } from "../../../../firebase";
-import { useAuth } from "../../../Context/AuthContext";
-import Moment from "react-moment";
+} from 'firebase/firestore';
+import { useEffect, useRef, useState } from 'react';
+import { BsThreeDots } from 'react-icons/bs';
+import { FaRegComment } from 'react-icons/fa';
+import { HiOutlinePaperAirplane } from 'react-icons/hi';
+import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri';
+import Moment from 'react-moment';
+
+import { db } from '../../../../firebase';
+import { useAuth } from '../../../Context/AuthContext';
+import Comment from './Comment';
 
 const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   const { currentUser, userSecondaryInfo } = useAuth();
@@ -36,12 +31,12 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   //Getting likes
   useEffect(() => {
     onSnapshot(
-      query(collection(db, "posts"), where("uid", "==", uid)),
+      query(collection(db, 'posts'), where('uid', '==', uid)),
       (snapshot) => {
         if (snapshot?.docs[0]?.data()?.likes) {
           setLikes(snapshot?.docs[0]?.data()?.likes);
         }
-      }
+      },
     );
   }, [db, uid]);
 
@@ -53,12 +48,12 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   //Getting comments
   useEffect(() => {
     onSnapshot(
-      query(collection(db, "posts"), where("uid", "==", uid)),
+      query(collection(db, 'posts'), where('uid', '==', uid)),
       (snapshot) => {
         if (snapshot?.docs[0]?.data()?.comments) {
           setComments(snapshot?.docs[0]?.data()?.comments.reverse());
         }
-      }
+      },
     );
   }, [db, uid]);
 
@@ -69,12 +64,12 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   }, [likes]);
 
   const addComment = async () => {
-    const commentsRef = query(collection(db, "posts"), where("uid", "==", uid));
+    const commentsRef = query(collection(db, 'posts'), where('uid', '==', uid));
     const commentsDocs = await getDocs(commentsRef);
     const postId = commentsDocs.docs[0].id;
-    const commentRef = doc(db, "posts", postId);
+    const commentRef = doc(db, 'posts', postId);
 
-    if (commentInputRef.current.value > "") {
+    if (commentInputRef.current.value > '') {
       updateDoc(commentRef, {
         comments: arrayUnion({
           username: userSecondaryInfo.username,
@@ -83,17 +78,17 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
         }),
       });
 
-      commentInputRef.current.value = "";
+      commentInputRef.current.value = '';
     }
   };
 
   const like = async () => {
     setIsLiked(true);
-    const postRef = query(collection(db, "posts"), where("uid", "==", uid));
+    const postRef = query(collection(db, 'posts'), where('uid', '==', uid));
     const postDocs = await getDocs(postRef);
     const postId = postDocs.docs[0].id;
 
-    const likeRef = doc(db, "posts", postId);
+    const likeRef = doc(db, 'posts', postId);
 
     await updateDoc(likeRef, {
       likes: arrayUnion(currentUser.uid),
@@ -102,11 +97,11 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
 
   const unlike = async () => {
     setIsLiked(false);
-    const postRef = query(collection(db, "posts"), where("uid", "==", uid));
+    const postRef = query(collection(db, 'posts'), where('uid', '==', uid));
     const postDocs = await getDocs(postRef);
     const postId = postDocs.docs[0].id;
 
-    const likeRef = doc(db, "posts", postId);
+    const likeRef = doc(db, 'posts', postId);
 
     await updateDoc(likeRef, {
       likes: arrayRemove(currentUser.uid),
@@ -224,7 +219,9 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
           />
           <button
             type="submit"
-            className={"text-lg font-normal text-gray-50 px-3 bg-blue-500 rounded-[32px] sm:mx-4"}
+            className={
+              'text-lg font-normal text-gray-50 px-3 bg-blue-500 rounded-[32px] sm:mx-4'
+            }
           >
             Post
           </button>

@@ -1,4 +1,4 @@
-import Suggestion from "./Suggestion";
+import Suggestion from './Suggestion';
 
 const Suggestions = () => {
   return (

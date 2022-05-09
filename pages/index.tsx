@@ -1,12 +1,13 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Feed from "../components/Feed";
-import Header from "../components/Header";
-import Modal from "../components/NewPostModal";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useAuth } from "../components/Context/AuthContext";
-import StoryView from "../components/StoriesView";
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+import { useAuth } from '../components/Context/AuthContext';
+import Feed from '../components/Feed';
+import Header from '../components/Header';
+import Modal from '../components/NewPostModal';
+import StoryView from '../components/StoriesView';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
       {currentUser ? (
         <>
           <Head>
+            <meta name="theme-color" content="rgb(254,254,255)" />
             <title>Instagram</title>
             <meta
               name="viewport"
@@ -35,6 +37,7 @@ const Home: NextPage = () => {
         </>
       ) : (
         <div className="w-full h-screen flex justify-center items-center">
+          <div className="absolute z-50 top-0">it's magic</div>
           <h1 className="text-3xl">Redirecting...</h1>
         </div>
       )}

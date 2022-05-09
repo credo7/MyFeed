@@ -1,14 +1,5 @@
-import { Fragment, useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import { modalState } from "../../atoms/modalAtom";
-import { GrFormClose } from "react-icons/gr";
-import { AiOutlineCloudUpload } from "react-icons/ai";
-import { Dialog, Transition } from "@headlessui/react";
-import { useSession } from "next-auth/react";
-import { uid } from "uid";
 import {
   addDoc,
-  arrayUnion,
   collection,
   doc,
   getDocs,
@@ -16,10 +7,17 @@ import {
   serverTimestamp,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { db, storage } from "../../firebase";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useAuth } from "../Context/AuthContext";
+} from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useEffect, useRef, useState } from 'react';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { GrFormClose } from 'react-icons/gr';
+import { useRecoilState } from 'recoil';
+import { uid } from 'uid';
+
+import { modalState } from '../../atoms/modalAtom';
+import { db, storage } from '../../firebase';
+import { useAuth } from '../Context/AuthContext';
 
 const Modal = () => {
   const [open, setOpen] = useRecoilState(modalState);
@@ -49,31 +47,31 @@ const Modal = () => {
     setLoading(true);
 
     const userDocs = await getDocs(
-      query(collection(db, "users"), where("uid", "==", currentUser.uid))
+      query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
     );
 
     const username = await userDocs?.docs[0]?.data().username;
 
-    const docRef = await addDoc(collection(db, "posts"), {
+    const docRef = await addDoc(collection(db, 'posts'), {
       uid: uid(),
       user_uid: currentUser.uid,
       username,
       caption: captionRef.current.value,
-      profileImg: currentUser.photoURL || "",
+      profileImg: currentUser.photoURL || '',
       timeStamp: serverTimestamp(),
     });
 
     const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
-    imageRef.bucket.replace("appspot.com", "firebaseapp.com");
+    imageRef.bucket.replace('appspot.com', 'firebaseapp.com');
 
-    await uploadString(imageRef, selectedFile, "data_url").then(
-      async (snapshot) => {
-        const downloadURL = await getDownloadURL(imageRef);
+    await uploadString(imageRef, selectedFile, 'data_url').then(async () => {
+      const downloadURL = await getDownloadURL(imageRef);
 
-        await updateDoc(doc(db, "posts", docRef.id), { imageURL: downloadURL });
-      }
-    );
+      await updateDoc(doc(db, 'posts', docRef.id), {
+        imageURL: downloadURL,
+      });
+    });
 
     setOpen(false);
     setLoading(false);
@@ -81,8 +79,8 @@ const Modal = () => {
   };
 
   useEffect(() => {
-    open && (document.body.style.overflow = "hidden");
-    !open && (document.body.style.overflow = "unset");
+    open && (document.body.style.overflow = 'hidden');
+    !open && (document.body.style.overflow = 'unset');
   }, [open]);
 
   return (
@@ -90,7 +88,7 @@ const Modal = () => {
       {open && (
         <div className=" w-full vh_for_iphones fixed bg-[#030303c7] top-0 z-50 scrollbar-hide">
           <div className="w-full vh_for_iphones flex items-center justify-center">
-            <div className="flex flex-col w-[90%] md:w-[50%] h-[80%] min-h-[400px] bg-white border-[1px] border-gray-300 rounded-lg min-w-[250px] relative">
+            <div className="flex flex-col w-[90%] md:w-[50%] h-[80%] min-h-[400px] bg-white border-[1px] border-gray-300 rounded-[32px] min-w-[250px] relative">
               <div className="min-h-[50px] flex h-14 justify-center items-center w-full border-b-[1px]">
                 <p>Create new post</p>
               </div>
@@ -112,11 +110,11 @@ const Modal = () => {
                   )}
                 </div>
 
-                <p className="pb-6 text-xl">Drag photos and videos here</p>
+                <p className="pb-6 text-xl">Drag photos here</p>
                 <div className="flex flex-col space-y-4 mb-8">
                   <button
                     onClick={() => filePickerRef.current.click()}
-                    className=" bg-gray-300 p-2 px-4 rounded-lg text-gray-800"
+                    className=" bg-gray-300 p-2 px-4 rounded-[32px] text-gray-800"
                   >
                     Select from Computer
                   </button>
@@ -136,13 +134,13 @@ const Modal = () => {
                     <input
                       ref={captionRef}
                       placeholder="Please enter a caption"
-                      className=" py-1 px-4 outline-none text-[16px] border-[1px] rounded-md text-gray-500 w-[192px] font-light"
+                      className=" py-1 px-4 outline-none text-[16px] border-[1px] rounded-[32px] text-gray-500 w-[192px] font-light"
                     />
                     <button
                       hidden={!selectedFile}
-                      className=" bg-blue-400 p-2 px-4 rounded-lg text-white my-4"
+                      className=" bg-blue-400 p-2 px-4 rounded-[32px] text-white my-4"
                     >
-                      {loading ? "Uploading..." : "Upload post"}
+                      {loading ? 'Uploading...' : 'Upload post'}
                     </button>
                   </form>
                 </div>
