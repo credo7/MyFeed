@@ -16,7 +16,7 @@ import { useAuth } from '../Context/AuthContext';
 
 const Header = () => {
   const [open, setOpen] = useRecoilState(modalState);
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const filePickerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(null as any);
@@ -208,6 +208,7 @@ const Header = () => {
                       Click to change
                     </button>
                   )}
+                  <button onClick={logout} className="text-sm text-blue-500 mt-2 font-medium">Sign out</button>
                   {/* <p>Full name</p> */}
                   {/* <p>Bio</p> */}
                 </div>

@@ -114,7 +114,7 @@ const Modal = () => {
                 <div className="flex flex-col space-y-4 mb-8">
                   <button
                     onClick={() => filePickerRef.current.click()}
-                    className=" bg-gray-300 p-2 px-4 rounded-[32px] text-gray-800"
+                    className=" bg-gray-800 text-white p-2 px-4 rounded-[32px]"
                   >
                     Select from Computer
                   </button>

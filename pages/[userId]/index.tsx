@@ -136,10 +136,10 @@ const Profile = (props: any) => {
                 <div>
                   <div className=" font-medium">{props.user.name || ' '}</div>
                   <span>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    {props?.user?.bio || `Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Asperiores beatae iure praesentium corporis facere aliquam
                     doloribus eaque delectus in perferendis impedit, magni sint
-                    molestias culpa eum consequatur temporibus cumque vero!
+                    molestias culpa eum consequatur temporibus cumque vero!`}
                   </span>
                 </div>
               </section>

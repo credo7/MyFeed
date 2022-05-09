@@ -25,16 +25,6 @@ const Suggestions = () => {
           userImg="https://i.pravatar.cc"
           caption="I'm lucky"
         />
-        <Suggestion
-          username="bot4"
-          userImg="https://i.pravatar.cc"
-          caption="I'm lucky"
-        />
-        <Suggestion
-          username="bot5"
-          userImg="https://i.pravatar.cc"
-          caption="I'm lucky"
-        />
       </div>
     </div>
   );

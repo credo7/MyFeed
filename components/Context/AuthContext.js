@@ -32,14 +32,12 @@ export function AuthProvider({ children }) {
 
   async function signup(email, password, name, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    console.log(123)
     await setDoc(doc(db, 'users', cred.user.uid), {
       email,
       name,
       username,
       uid: cred.user.uid,
     });
-    console.log(456)
     return
   }
 
