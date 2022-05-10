@@ -37,6 +37,8 @@ export function AuthProvider({ children }) {
       name,
       username,
       uid: cred.user.uid,
+      photoURL:
+        'https://firebasestorage.googleapis.com/v0/b/instagram-clone-8f507.appspot.com/o/jFdZGJ09EUY2R85V3KEt6We9oUR2%2Fprofile.png?alt=media&token=a1d5e781-a8e6-42dd-b805-d1ef175e0214',
     });
     return;
   }

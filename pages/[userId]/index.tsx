@@ -17,6 +17,7 @@ import { useAuth } from '../../components/Context/AuthContext';
 import Header from '../../components/Header';
 import Modal from '../../components/NewPostModal';
 import { db } from '../../firebase';
+import { alertSoon } from '../../functions';
 import ProfilePosts from './ProfilePosts';
 
 const Profile = (props: any) => {
@@ -86,7 +87,10 @@ const Profile = (props: any) => {
                     {props.user.username}
                   </h2>
                   {isOwner ? (
-                    <button className="py-[5px] px-[9px] bg-white border-[1px] rounded-[32px] text-sm font-medium">
+                    <button
+                      onClick={alertSoon}
+                      className="py-[5px] px-[9px] bg-white border-[1px] rounded-[32px] text-sm font-medium"
+                    >
                       Edit profile
                     </button>
                   ) : (

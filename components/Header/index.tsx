@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil';
 
 import { modalState } from '../../atoms/modalAtom';
 import { db, storage } from '../../firebase';
+import { alertSoon } from '../../functions';
 import { useAuth } from '../Context/AuthContext';
 
 const Header = () => {
@@ -145,7 +146,10 @@ const Header = () => {
               />
               {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
               <div className="relative">
-                <HiOutlinePaperAirplane className="navbtn rotate-45 relative bottom-1 left-1" />
+                <HiOutlinePaperAirplane
+                  onClick={alertSoon}
+                  className="navbtn rotate-45 relative bottom-1 left-1"
+                />
                 <div className="hidden md:flex absolute -top-1.5 left-[16px] text-xs w-4 h-4 bg-red-500 rounded-full items-center justify-center animate-pulse text-white">
                   3
                 </div>

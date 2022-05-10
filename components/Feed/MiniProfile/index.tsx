@@ -15,11 +15,7 @@ const MiniProfile = () => {
       <div className="flex flex-row space-x-4 justify-center items-center">
         <img
           onClick={goToProfilePage}
-          src={
-            currentUser.photoURL
-              ? currentUser.photoURL
-              : 'https://i.pravatar.cc'
-          }
+          src={currentUser?.photoURL}
           className="w-14 h-14 rounded-full object-cover cursor-pointer"
         />
         <div className="flex flex-col">

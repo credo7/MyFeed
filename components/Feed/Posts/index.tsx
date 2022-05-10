@@ -50,6 +50,11 @@ const Posts = () => {
 
   return (
     <div>
+      {posts.length < 1 && (
+        <div className="w-full flex items-center justify-center my-4 rounded-[32px] bg-gray-200 py-2">
+          <p>Подпишись на кого-нибудь и здесь будут посты :)</p>{' '}
+        </div>
+      )}
       {posts.map((post: any, index: any) => (
         <Post
           key={index}

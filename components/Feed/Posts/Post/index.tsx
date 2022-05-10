@@ -64,7 +64,14 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
 
   const addComment = async () => {
     if (commentInputRef.current.value > '') {
-    setComments([...comments,{username:userSecondaryInfo.username,caption: commentInputRef.current.value, date:now()}])
+      setComments([
+        ...comments,
+        {
+          username: userSecondaryInfo.username,
+          caption: commentInputRef.current.value,
+          date: now(),
+        },
+      ]);
     }
     const commentsRef = query(collection(db, 'posts'), where('uid', '==', uid));
     const commentsDocs = await getDocs(commentsRef);
@@ -150,7 +157,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
         <div className="flex flew-row w-full justify-between items-center px-5 my-3 sm:my-4">
           <div className="flex flex-row justify-center items-center space-x-4">
             <img
-            onClick={goToProfilePage}
+              onClick={goToProfilePage}
               className="w-10 h-10 rounded-full object-cover cursor-pointer"
               src={userImg}
             />
@@ -169,7 +176,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
 
         {/* buttons */}
         <div className="flex flex-row my-2">
-          <div className="flex flex-col items-center space-x-0 space-y-1 h-full  text-gray-800 px-2 py-0 ml-1 mr-3 border-r-[1px] border-r-gray-200 my-auto ">
+          <div className="flex flex-col items-center space-x-0 space-y-1 h-full  text-gray-800 px-2 py-0 mx-1 mr-3 border-r-[1px] border-r-gray-200 my-auto ">
             <RiArrowUpLine
               onClick={() => changeVote(1)}
               className={
@@ -190,7 +197,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
           </div>
           <div className="flex flex-col w-full">
             <div className="flex flex-row justify-between items-center pr-4 pt-4 pb-2">
-                <FaRegComment className="hover:scale-110 h-6 w-6" />
+              <FaRegComment className="hover:scale-110 h-6 w-6" />
               <HiOutlinePaperAirplane className="hover:scale-110 rotate-45 h-6 w-6 relative bottom-1" />
             </div>
 
