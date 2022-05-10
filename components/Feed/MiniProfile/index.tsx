@@ -29,7 +29,9 @@ const MiniProfile = () => {
           >
             {userSecondaryInfo?.username}
           </p>
-          <p className="text-gray-500 text-xs">{userSecondaryInfo?.bio || "Welcome to instagram"}</p>
+          <p className="text-gray-500 text-xs">
+            {userSecondaryInfo?.bio || 'Welcome to instagram'}
+          </p>
         </div>
       </div>
 

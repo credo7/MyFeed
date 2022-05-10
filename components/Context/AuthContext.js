@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
       username,
       uid: cred.user.uid,
     });
-    return
+    return;
   }
 
   const updateUserSecondaryInfo = async () => {

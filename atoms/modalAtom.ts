@@ -1,11 +1,11 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const modalState = atom({
-  key: "modalState",
+  key: 'modalState',
   default: false,
 });
 
 export const storyViewState = atom({
-  key: "storyViewState",
+  key: 'storyViewState',
   default: false,
 });

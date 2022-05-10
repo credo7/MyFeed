@@ -68,7 +68,7 @@ const Profile = (props: any) => {
       {currentUser && (
         <div className="w-full h-screen flex flex-col items-center">
           <Header />
-          <div className=" max-w-[975px] sm:px-[20px] pt-[32px]">
+          <div className="profile_posts_width sm:px-[20px] pt-[32px]">
             <div className="flex flex-col mb-[20px] sm:mb-0 justify-center items-center sm:flex-row px-[16px] sm:px-0">
               <div className="min-w-[150px] md:min-w-[292px] sm:mr-[32px]">
                 <img
@@ -81,7 +81,7 @@ const Profile = (props: any) => {
               </div>
               {/* right aside */}
               <section className="flex flex-col space-y-4 sm:space-y-6 justify-center">
-                <div className="flex flex-col sm:flex-row space-x-4 justify-start items-center">
+                <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center items-center">
                   <h2 className=" text-3xl font-light mb-2 sm:mb-0">
                     {props.user.username}
                   </h2>
@@ -136,7 +136,8 @@ const Profile = (props: any) => {
                 <div>
                   <div className=" font-medium">{props.user.name || ' '}</div>
                   <span>
-                    {props?.user?.bio || `Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    {props?.user?.bio ||
+                      `Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Asperiores beatae iure praesentium corporis facere aliquam
                     doloribus eaque delectus in perferendis impedit, magni sint
                     molestias culpa eum consequatur temporibus cumque vero!`}

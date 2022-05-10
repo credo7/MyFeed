@@ -208,7 +208,12 @@ const Header = () => {
                       Click to change
                     </button>
                   )}
-                  <button onClick={logout} className="text-sm text-blue-500 mt-2 font-medium">Sign out</button>
+                  <button
+                    onClick={logout}
+                    className="text-sm text-blue-500 mt-2 font-medium"
+                  >
+                    Sign out
+                  </button>
                   {/* <p>Full name</p> */}
                   {/* <p>Bio</p> */}
                 </div>

@@ -10,7 +10,7 @@ const ProfilePosts = ({ posts }: any) => {
           return (
             <div key={index} className={styles.square}>
               <img
-                className="absolute w-full object-contain top-0"
+                className="absolute w-full aspect-square object-cover top-0"
                 src={post.imageURL}
                 alt="post"
               />

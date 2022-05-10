@@ -128,7 +128,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
       </div>
 
       {/* image */}
-      <img className="" src={imageURL} />
+      <img className=" aspect-square object-cover" src={imageURL} />
 
       {/* buttons */}
       <div className="flex flex-row justify-between items-center px-4 pt-4 pb-2">
