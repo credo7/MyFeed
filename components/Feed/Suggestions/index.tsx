@@ -40,18 +40,13 @@ const Suggestions = () => {
         {dummySuggestions.map((suggestion, index) => {
           return (
             <Suggestion
-            key={index}
+              key={index}
               username={suggestion.username}
               userImg={suggestion.photoURL}
               bio={suggestion.bio}
             />
           );
         })}
-        {/* <Suggestion
-          username="bot1"
-          userImg="https://i.pravatar.cc"
-          caption="I'm lucky"
-        /> */}
       </div>
     </div>
   );

@@ -4,11 +4,12 @@ import {
   collection,
   doc,
   getDocs,
-  onSnapshot,
   query,
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { now } from 'moment';
+import { useRouter } from 'next/dist/client/router';
 import { useEffect, useRef, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaRegComment } from 'react-icons/fa';
@@ -22,48 +23,49 @@ import Comment from './Comment';
 
 const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   const { currentUser, userSecondaryInfo } = useAuth();
-  const [timeStamp, setTimeStamp] = useState() as any;
   const [likes, setLikes] = useState([] as any);
-  const [isLiked, setIsLiked] = useState(false);
+  const [voteCout, setVoteCount] = useState() as any;
+  const [currentVote, setCurrentVote] = useState(0);
   const [comments, setComments] = useState([] as any);
   const commentInputRef = useRef() as any;
+  const router = useRouter();
+
+  const goToProfilePage = () => {
+    router.push(`${process.env.BASE_PATH}/${username}`);
+  };
+
+  const time = new Date(date.seconds * 1000 + date.nanoseconds / 100000);
 
   //Getting likes
   useEffect(() => {
-    onSnapshot(
-      query(collection(db, 'posts'), where('uid', '==', uid)),
-      (snapshot) => {
-        if (snapshot?.docs[0]?.data()?.likes) {
-          setLikes(snapshot?.docs[0]?.data()?.likes);
-        }
-      },
-    );
-  }, [db, uid]);
-
-  useEffect(() => {
-    const time = new Date(date.seconds * 1000 + date.nanoseconds / 100000);
-    setTimeStamp(time);
-  }, [db, uid]);
+    const getLikes = async () => {
+      const q = query(collection(db, 'posts'), where('uid', '==', uid));
+      const querySnapshot = await getDocs(q);
+      const likes = querySnapshot?.docs[0]?.data()?.likes;
+      if (likes) {
+        setLikes(likes);
+      }
+    };
+    getLikes();
+  }, []);
 
   //Getting comments
   useEffect(() => {
-    onSnapshot(
-      query(collection(db, 'posts'), where('uid', '==', uid)),
-      (snapshot) => {
-        if (snapshot?.docs[0]?.data()?.comments) {
-          setComments(snapshot?.docs[0]?.data()?.comments.reverse());
-        }
-      },
-    );
-  }, [db, uid]);
-
-  useEffect(() => {
-    if (likes.length > 0 && likes.includes(currentUser.uid)) {
-      setIsLiked(true);
-    }
-  }, [likes]);
+    const getComments = async () => {
+      const q = query(collection(db, 'posts'), where('uid', '==', uid));
+      const querySnapshot = await getDocs(q);
+      const comments = querySnapshot?.docs[0]?.data()?.comments;
+      if (comments) {
+        setComments(comments.reverse());
+      }
+    };
+    getComments();
+  }, []);
 
   const addComment = async () => {
+    if (commentInputRef.current.value > '') {
+    setComments([...comments,{username:userSecondaryInfo.username,caption: commentInputRef.current.value, date:now()}])
+    }
     const commentsRef = query(collection(db, 'posts'), where('uid', '==', uid));
     const commentsDocs = await getDocs(commentsRef);
     const postId = commentsDocs.docs[0].id;
@@ -82,30 +84,60 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
     }
   };
 
-  const like = async () => {
-    setIsLiked(true);
+  useEffect(() => {
+    const currentUserLike = JSON.parse(JSON.stringify(likes || '')).filter(
+      (like: { mark: number; uid: string }) => like.uid == currentUser.uid,
+    );
+    if (currentUserLike.length > 0) {
+      setCurrentVote(currentUserLike[0].mark);
+    }
+  }, [likes]);
+
+  useEffect(() => {
+    if (likes != undefined) {
+      let count = 0;
+      likes.forEach((like: any) => {
+        count += like.mark;
+      });
+      setVoteCount(count);
+    }
+  }, [likes]);
+
+  const changeVote = async (vote: number) => {
+    setCurrentVote(vote);
+
+    if (vote == currentVote) {
+      setVoteCount(voteCout - vote);
+    } else {
+      setVoteCount(voteCout - currentVote + vote);
+    }
+
     const postRef = query(collection(db, 'posts'), where('uid', '==', uid));
     const postDocs = await getDocs(postRef);
     const postId = postDocs.docs[0].id;
 
     const likeRef = doc(db, 'posts', postId);
 
-    await updateDoc(likeRef, {
-      likes: arrayUnion(currentUser.uid),
-    });
-  };
+    const filteredLikes = likes.filter(
+      (like: any) => like.uid != currentUser.uid,
+    );
 
-  const unlike = async () => {
-    setIsLiked(false);
-    const postRef = query(collection(db, 'posts'), where('uid', '==', uid));
-    const postDocs = await getDocs(postRef);
-    const postId = postDocs.docs[0].id;
+    if (vote == currentVote) {
+      setCurrentVote(0);
 
-    const likeRef = doc(db, 'posts', postId);
+      await updateDoc(likeRef, {
+        likes: [...filteredLikes],
+      });
 
-    await updateDoc(likeRef, {
-      likes: arrayRemove(currentUser.uid),
-    });
+      setLikes([...filteredLikes]);
+    } else {
+      setCurrentVote(vote);
+      await updateDoc(likeRef, {
+        likes: [...filteredLikes, { uid: currentUser.uid, mark: vote }],
+      });
+
+      setLikes([...filteredLikes, { uid: currentUser.uid, mark: vote }]);
+    }
   };
 
   return (
@@ -114,118 +146,106 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
      border-x-0 sm:border-x-[1px] sm:shadow-sm"
     >
       {/* Header */}
-      <div className="flex flew-row w-full justify-between items-center px-5 my-3 sm:my-4">
-        <div className="flex flex-row justify-center items-center space-x-4">
-          <img className="w-10 h-10 rounded-full object-cover" src={userImg} />
-          <div className="flex flex-col">
-            <p className="">{username}</p>
-            <p className="text-gray-400 font-light text-xs truncate">
-              <Moment fromNow>{timeStamp}</Moment>
-            </p>
-          </div>
-        </div>
-        <BsThreeDots className="w-4 h-4 text-gray-500" />
-      </div>
-
-      {/* image */}
-      <img className=" aspect-square object-cover" src={imageURL} />
-
-      {/* buttons */}
-      <div className="flex flex-row justify-between items-center px-4 pt-4 pb-2">
-        {/* <div className="flex flex-row items-center space-x-2">
-          {isLiked ? (
-            <AiFillHeart onClick={unlike} className="h-7 w-7 text-red-500" />
-          ) : (
-            <AiOutlineHeart onClick={like} className="h-7 w-7" />
-          )}
-          <p className="font-medium text-sm">
-            {likes.length} like{likes.length != 1 && "s"}
-          </p> */}
-        {/* <FaRegComment className="h-6 w-6" /> */}
-        {/* </div> */}
-        <div className="flex flex-row space-x-2 items-center">
-          <div className="flex flex-row items-center space-x-2 rounded-[32px] bg-gray-800 text-white px-2 py-1">
-            <RiArrowDownLine className="w-7 h-7" />
-            <p className="font-medium text-md">{likes.length}</p>
-            <RiArrowUpLine className="text-red-500 w-7 h-7" />
-          </div>
-          <FaRegComment className="h-6 w-6" />
-        </div>
-        <HiOutlinePaperAirplane className="rotate-45 h-6 w-6 relative bottom-1" />
-      </div>
-
-      {/* likes */}
-      {/* <div className="flex flex-col px-4"> */}
-      {/* <div className="flex flex-row -space-x-2">
-          <img
-            className="w-6 h-6 rounded-full border-2 border-white z-30"
-            src={userImg}
-          />
-          <img
-            className="w-6 h-6 rounded-full border-2 border-white z-20"
-            src={userImg}
-          />
-          <img
-            className="w-6 h-6 rounded-full border-2 border-white z-10"
-            src={userImg}
-          />
-        </div> */}
-      {/* <p className="mb-1 font-medium text-sm">
-          {likes.length} like{likes.length != 1 && "s"}
-        </p>
-      </div> */}
-
-      {/* caption */}
-      {/* <p>View all 259 comments</p> */}
-      <div className="px-4 flex flex-row items-center justify-between">
-        <div>
-          <p className="inline font-medium text-sm pr-2">{username}</p>
-          <span className="inline text-sm ">{caption}</span>
-        </div>
-      </div>
-
-      {/* comments */}
-      {/* <p className="px-4 text-gray-400">View all 140 comments</p> */}
-      <div className="flex flex-col max-h-12 overflow-y-scroll space-y-[2px]">
-        {comments.map((comment: any, index: any) => {
-          return (
-            <Comment
-              key={index}
-              username={comment.username}
-              caption={comment.caption}
-              date={comment.timeStamp}
+      <div className="flex flex-col">
+        <div className="flex flew-row w-full justify-between items-center px-5 my-3 sm:my-4">
+          <div className="flex flex-row justify-center items-center space-x-4">
+            <img
+            onClick={goToProfilePage}
+              className="w-10 h-10 rounded-full object-cover cursor-pointer"
+              src={userImg}
             />
-          );
-        })}
-      </div>
+            <div className="flex flex-col">
+              <p className="">{username}</p>
+              <p className="text-gray-400 font-light text-xs truncate">
+                <Moment fromNow>{time}</Moment>
+              </p>
+            </div>
+          </div>
+          <BsThreeDots className="w-4 h-4 text-gray-500" />
+        </div>
 
-      {/* date */}
-      {/* <div className="px-4 text-gray-400 font-light text-sm truncate"> */}
-      {/* </div> */}
-      {/* comment input */}
-      <div className="sm:mt-2 sm:bg-slate-50 sm:rounded-b-[32px]">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            addComment();
-          }}
-          className="flex flex-row px-4 py-[2px] justify-between items-center"
-        >
-          {/* <FaRegSmileWink className=" w-8 h-8" /> */}
-          <input
-            ref={commentInputRef}
-            className="sm:mx-4 w-full h-[40px] text-[16px] sm:px-2 border-0 outline-none bg-transparent"
-            placeholder="Add a comment"
-          />
-          <button
-            type="submit"
-            className={
-              'text-lg font-normal text-gray-50 px-3 bg-blue-500 rounded-[32px] sm:mx-4'
-            }
+        {/* image */}
+        <img className=" aspect-square object-cover" src={imageURL} />
+
+        {/* buttons */}
+        <div className="flex flex-row my-2">
+          <div className="flex flex-col items-center space-x-0 space-y-1 h-full  text-gray-800 px-2 py-0 ml-1 mr-3 border-r-[1px] border-r-gray-200 my-auto ">
+            <RiArrowUpLine
+              onClick={() => changeVote(1)}
+              className={
+                'w-6 h-6 hover:scale-110 ' +
+                (currentVote == 1 ? 'text-red-500' : 'text-gray-800')
+              }
+            />
+            <p className="font-medium text-md min-w-[3ch] text-center bg-gray-200 rounded-md text-gray-800 p-[2px] shadow-sm border-[1px]">
+              {voteCout}
+            </p>
+            <RiArrowDownLine
+              onClick={() => changeVote(-1)}
+              className={
+                'w-6 h-6 hover:scale-110 ' +
+                (currentVote == -1 ? 'text-red-500' : 'text-gray-800')
+              }
+            />
+          </div>
+          <div className="flex flex-col w-full">
+            <div className="flex flex-row justify-between items-center pr-4 pt-4 pb-2">
+                <FaRegComment className="hover:scale-110 h-6 w-6" />
+              <HiOutlinePaperAirplane className="hover:scale-110 rotate-45 h-6 w-6 relative bottom-1" />
+            </div>
+
+            <div className="pr-4 flex flex-row items-center justify-between">
+              <div>
+                <p className="inline font-medium text-sm pr-2">{username}</p>
+                <span className="inline text-sm ">{caption}</span>
+              </div>
+            </div>
+
+            {/* comments */}
+            {/* <p className="px-4 text-gray-400">View all 140 comments</p> */}
+            <div className="flex flex-col max-h-12 overflow-y-scroll space-y-[2px] pb-[8px]">
+              {comments.map((comment: any, index: any) => {
+                return (
+                  <Comment
+                    key={index}
+                    username={comment.username}
+                    caption={comment.caption}
+                    date={comment.timeStamp}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* date */}
+        {/* <div className="px-4 text-gray-400 font-light text-sm truncate"> */}
+        {/* </div> */}
+        {/* comment input */}
+        <div className=" sm:bg-gray-50 sm:rounded-b-[32px]">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              addComment();
+            }}
+            className="flex flex-row px-4 py-[2px] justify-between items-center"
           >
-            Post
-          </button>
-        </form>
+            {/* <FaRegSmileWink className=" w-8 h-8" /> */}
+            <input
+              ref={commentInputRef}
+              className="sm:mx-4 w-full h-[40px] text-[16px] sm:px-2 border-0 outline-none bg-transparent"
+              placeholder="Add a comment"
+            />
+            <button
+              type="submit"
+              className={
+                'text-lg font-normal text-gray-800 px-3 bg-gray-100 shadow-sm border-[1px]  rounded-[32px] sm:mx-4 hover:scale-110'
+              }
+            >
+              Post
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

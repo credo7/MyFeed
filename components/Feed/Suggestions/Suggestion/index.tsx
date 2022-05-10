@@ -4,7 +4,6 @@ import {
   collection,
   doc,
   getDocs,
-  onSnapshot,
   query,
   updateDoc,
   where,
@@ -29,21 +28,21 @@ const Suggestion = ({ userImg, username, bio }: any) => {
       );
       const querySnapshot = await getDocs(q);
       const data = querySnapshot?.docs[0]?.data();
-      if (data){
+      if (data) {
         setSuggestedProfile(JSON.parse(JSON.stringify(data)));
       }
     };
 
-    getSuggestedProfileInfo()
+    getSuggestedProfileInfo();
   }, []);
 
-  useEffect(()=>{
-    console.log(userSecondaryInfo?.following)
-    
-    if (userSecondaryInfo?.followings?.includes(suggestedProfile?.uid)){
-      setIsFollow(true)
+  useEffect(() => {
+    console.log(userSecondaryInfo?.following);
+
+    if (userSecondaryInfo?.followings?.includes(suggestedProfile?.uid)) {
+      setIsFollow(true);
     }
-  },[suggestedProfile])
+  }, [suggestedProfile]);
 
   const follow = async () => {
     const userRef = doc(db, 'users', currentUser.uid);

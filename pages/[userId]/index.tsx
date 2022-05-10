@@ -81,7 +81,7 @@ const Profile = (props: any) => {
               </div>
               {/* right aside */}
               <section className="flex flex-col space-y-4 sm:space-y-6 justify-center">
-                <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center items-center">
+                <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center sm:justify-start items-center">
                   <h2 className=" text-3xl font-light mb-2 sm:mb-0">
                     {props.user.username}
                   </h2>

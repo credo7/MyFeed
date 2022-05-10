@@ -1,6 +1,12 @@
-import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { uid } from 'uid';
 
 import { db } from '../../../firebase';
 import { useAuth } from '../../Context/AuthContext';
@@ -8,17 +14,17 @@ import Post from './Post';
 
 const Posts = () => {
   const { currentUser } = useAuth();
-  const [ posts, setPosts ] = useState([] as any);
+  const [posts, setPosts] = useState([] as any);
   const [followings, setFollowings] = useState([] as any);
 
-    onSnapshot(
-      query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
-      (snapshot) => {
-        if (snapshot?.docs[0]?.data()?.followings) {
-          setFollowings(snapshot?.docs[0]?.data()?.followings);
-        }
-      },
-    );
+  onSnapshot(
+    query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
+    (snapshot) => {
+      if (snapshot?.docs[0]?.data()?.followings) {
+        setFollowings(snapshot?.docs[0]?.data()?.followings);
+      }
+    },
+  );
 
   useEffect(() => {
     const updatePosts = async () => {

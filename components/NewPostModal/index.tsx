@@ -88,7 +88,7 @@ const Modal = () => {
       {open && (
         <div className=" w-full vh_for_iphones fixed bg-[#030303c7] top-0 z-50 scrollbar-hide">
           <div className="w-full vh_for_iphones flex items-center justify-center">
-            <div className="flex flex-col w-[90%] md:w-[50%] h-[80%] min-h-[400px] bg-white border-[1px] border-gray-300 rounded-[32px] min-w-[250px] relative">
+            <div className="flex flex-col w-[90%] md:w-[50%] h-[80%] min-h-[400px] sm:min-h-[680px] bg-white border-[1px] border-gray-300 rounded-[32px] min-w-[250px] relative">
               <div className="min-h-[50px] flex h-14 justify-center items-center w-full border-b-[1px]">
                 <p>Create new post</p>
               </div>
@@ -110,7 +110,7 @@ const Modal = () => {
                   )}
                 </div>
 
-                <p className="pb-6 text-xl">Drag photos here</p>
+                <p className="py-4 text-xl">Drag photos here</p>
                 <div className="flex flex-col space-y-4 mb-8">
                   <button
                     onClick={() => filePickerRef.current.click()}
