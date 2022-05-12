@@ -22,9 +22,6 @@ export function AuthProvider({ children }) {
   const [userSecondaryInfo, setUserSecondaryInfo] = useState();
 
   useEffect(() => {
-    if (currentUser && !currentUser.image) {
-      getUserImageAndAddToCurrentUser();
-    }
     if (currentUser) {
       updateUserSecondaryInfo();
     }
@@ -35,7 +32,7 @@ export function AuthProvider({ children }) {
     await setDoc(doc(db, 'users', cred.user.uid), {
       email,
       name,
-      username,
+      username: username.toLowerCase(),
       uid: cred.user.uid,
       photoURL:
         'https://firebasestorage.googleapis.com/v0/b/instagram-clone-8f507.appspot.com/o/jFdZGJ09EUY2R85V3KEt6We9oUR2%2Fprofile.png?alt=media&token=a1d5e781-a8e6-42dd-b805-d1ef175e0214',
@@ -49,25 +46,6 @@ export function AuthProvider({ children }) {
     if (docSnap.exists()) {
       setUserSecondaryInfo(docSnap.data());
     }
-  };
-
-  const getUserImageAndAddToCurrentUser = async () => {
-    getDownloadURL(ref(storage, `${currentUser.uid}/profile.png`))
-      .then((url) => {
-        updateProfile(currentUser, { photoURL: url });
-        const userDoc = doc(db, `users/${currentUser.uid}`);
-        updateDoc(userDoc, { photoURL: url });
-      })
-      .catch(() => {
-        console.log("Opps.. You haven't got picture");
-      });
-
-    // const userImageUrl = await getDownloadURL(imageRef).catch((e) => {
-    //   console.log("Don't worry");
-    // });
-    // if (userImageUrl) {
-    //   updateProfile(currentUser, { image: userImageUrl });
-    // }
   };
 
   function signin(email, password) {
@@ -113,6 +91,7 @@ export function AuthProvider({ children }) {
     updatePassword,
     userSecondaryInfo,
     signinAsGuest,
+    updateUserSecondaryInfo,
   };
 
   return (

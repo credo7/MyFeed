@@ -8,9 +8,9 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaUserCheck } from 'react-icons/fa';
-import { uid } from 'uid';
 
 import { db } from '../../../../firebase';
 import { useAuth } from '../../../Context/AuthContext';
@@ -19,6 +19,7 @@ const Suggestion = ({ userImg, username, bio }: any) => {
   const { currentUser, userSecondaryInfo } = useAuth();
   const [suggestedProfile, setSuggestedProfile] = useState() as any;
   const [isFollow, setIsFollow] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const getSuggestedProfileInfo = async () => {
@@ -60,10 +61,18 @@ const Suggestion = ({ userImg, username, bio }: any) => {
     setIsFollow(false);
   };
 
+  const goToUserPage = () => {
+    router.push(`${process.env.BASE_PATH}/${username}`);
+  };
+
   return (
     <div className="flex flex-row justify-between pl-4 items-center">
       <div className="flex flex-row space-x-4 items-center">
-        <img className="w-8 h-8 rounded-full" src={userImg} />
+        <img
+          onClick={goToUserPage}
+          className="cursor-pointer w-8 h-8 rounded-full"
+          src={userImg}
+        />
         <div className="flex flex-col items-start">
           <p className="text-sm font-medium">{username}</p>
           <span className="text-xs text-gray-500 truncate w-[180px]">

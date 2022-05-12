@@ -17,14 +17,37 @@ const Posts = () => {
   const [posts, setPosts] = useState([] as any);
   const [followings, setFollowings] = useState([] as any);
 
-  onSnapshot(
-    query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
-    (snapshot) => {
+  // onSnapshot(
+  //   query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
+  //   (snapshot) => {
+  //     if (snapshot?.docs[0]?.data()?.followings) {
+  //       setFollowings(snapshot?.docs[0]?.data()?.followings);
+  //     }
+  //   },
+  // );
+
+  useEffect(() => {
+    const updateFollowings = async () => {
+      const q = query(
+        collection(db, 'users'),
+        where('uid', '==', currentUser.uid),
+      );
+      const snapshot = await getDocs(q);
       if (snapshot?.docs[0]?.data()?.followings) {
         setFollowings(snapshot?.docs[0]?.data()?.followings);
       }
-    },
-  );
+    };
+    updateFollowings();
+  }, []);
+
+  //   //--------------
+  // useEffect(()=>{
+  //   if(posts){
+  //     console.log(posts)
+  //   }
+
+  // },[posts])
+  //   //--------------
 
   useEffect(() => {
     const updatePosts = async () => {
@@ -39,7 +62,7 @@ const Posts = () => {
         );
         const postsDocs = await getDocs(postsQ);
 
-        await postsDocs.docs.forEach((doc) => {
+        await postsDocs?.docs?.forEach((doc) => {
           res.push(JSON.parse(JSON.stringify(doc?.data())));
         });
         setPosts(res.reverse());
@@ -51,8 +74,10 @@ const Posts = () => {
   return (
     <div>
       {posts.length < 1 && (
-        <div className="w-full flex items-center justify-center my-4 rounded-[32px] bg-gray-200 py-2">
-          <p>Подпишись на кого-нибудь и здесь будут посты :)</p>{' '}
+        <div className="w-full flex items-center justify-center my-4">
+          <div className="w-full mx-4 sm:mx-0 rounded-[32px] bg-gray-200 py-2 px-2 flex items-center justify-center">
+            <p>Подпишись на кого-нибудь и здесь будут посты</p>{' '}
+          </div>
         </div>
       )}
       {posts.map((post: any, index: any) => (

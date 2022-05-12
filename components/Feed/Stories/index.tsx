@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { CgMathPlus } from 'react-icons/cg';
 
 import { db } from '../../../firebase';
+import { alertSoon } from '../../../functions';
 import { useAuth } from '../../Context/AuthContext';
 import Story from './Story';
 
@@ -49,6 +50,7 @@ const Stories = () => {
       transform duration-200 ease-out"
       >
         <div
+          onClick={alertSoon}
           className="flex items-center justify-center h-[64px] w-[64px]  
       cursor-pointer hover:scale-110 transition 
       transform duration-200 ease-out border-2 border-[#eee] rounded-[20px]"
@@ -58,7 +60,12 @@ const Stories = () => {
         <p className="mt-[4px] text-xs w-16 truncate text-center ">Add story</p>
       </div>
       {stories.map((story: any, index: any) => (
-        <Story key={index} img={story.avatar} username={story.username} />
+        <Story
+          onClick={alertSoon}
+          key={index}
+          img={story.avatar}
+          username={story.username}
+        />
       ))}
     </div>
   );

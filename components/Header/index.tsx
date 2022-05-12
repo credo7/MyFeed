@@ -1,8 +1,15 @@
 import { updateProfile } from 'firebase/auth';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillHome, AiOutlineHeart } from 'react-icons/ai';
 import { BiSearch } from 'react-icons/bi';
 import { BsPatchPlus } from 'react-icons/bs';
@@ -17,7 +24,7 @@ import { useAuth } from '../Context/AuthContext';
 
 const Header = () => {
   const [open, setOpen] = useRecoilState(modalState);
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, userSecondaryInfo } = useAuth();
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const filePickerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(null as any);
@@ -25,6 +32,13 @@ const Header = () => {
   const router = useRouter();
   const [usernames, setUsernames] = useState([] as string[]);
   const searchRef = useRef() as any;
+  const [avatar, setAvatar] = useState('');
+
+  useEffect(() => {
+    if (userSecondaryInfo?.photoURL) {
+      setAvatar(userSecondaryInfo?.photoURL);
+    }
+  }, [userSecondaryInfo]);
 
   const addImageToProfile = (e: any) => {
     const reader = new FileReader();
@@ -43,14 +57,21 @@ const Header = () => {
     if (loading) return;
 
     setLoading(true);
+    setAvatar(selectedFile);
     const imageRef = ref(storage, `${currentUser.uid}/profile.png`);
     imageRef.bucket.replace('appspot.com', 'firebaseapp.com');
     await uploadString(imageRef, selectedFile, 'data_url')
       .then(async () => {
         const downloadImageURL = await getDownloadURL(imageRef);
-        updateProfile(currentUser, { image: downloadImageURL } as any);
+        setAvatar(downloadImageURL);
       })
       .catch((e) => console.log(e));
+    getDownloadURL(ref(storage, `${currentUser.uid}/profile.png`)).then(
+      (url) => {
+        const userDoc = doc(db, `users/${currentUser.uid}`);
+        updateDoc(userDoc, { photoURL: url });
+      },
+    );
     setOpen(false);
     setLoading(false);
     setSelectedFile(null);
@@ -60,9 +81,11 @@ const Header = () => {
     router.push(`${process.env.BASE_PATH}/`);
   };
 
-  const goToUserPage = (username: string) => {
-    searchRef.current.value = '';
-    setUsernames([]);
+  const goToUserPage = (username: string, isSearch = false) => {
+    if (isSearch) {
+      searchRef.current.value = '';
+      setUsernames([]);
+    }
     router.push(`${process.env.BASE_PATH}/${username}`);
   };
 
@@ -126,7 +149,7 @@ const Header = () => {
                         <li
                           key={index}
                           className="w-full h-full cursor-pointer font-light"
-                          onClick={() => goToUserPage(username)}
+                          onClick={() => goToUserPage(username, true)}
                         >
                           {username}
                         </li>
@@ -166,10 +189,10 @@ const Header = () => {
               >
                 {' '}
                 {/* TODO Tooltip */}
-                {currentUser.photoURL ? (
+                {avatar ? (
                   <img
                     className="h-9 w-9 rounded-full object-cover"
-                    src={currentUser.photoURL}
+                    src={avatar}
                   />
                 ) : (
                   <FaRegUserCircle className="h-7 w-7" />
@@ -178,11 +201,11 @@ const Header = () => {
               {openProfileModal ? (
                 <div className="absolute top-[76px] right-0 bg-[rgb(254,254,255)] border-[1px] border-gray-200 rounded-[32px] shadow-md flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
                   {/* <p className="mt-4 mb-6">username</p> */}
-                  {currentUser.photoURL || selectedFile ? (
+                  {avatar || selectedFile ? (
                     <img
                       onClick={() => filePickerRef.current.click()}
                       className="h-28 w-28 object-cover rounded-full cursor-pointer mt-[12px]"
-                      src={selectedFile || currentUser.photoURL}
+                      src={selectedFile || avatar}
                     />
                   ) : (
                     <FaRegUserCircle
@@ -200,6 +223,7 @@ const Header = () => {
                   {selectedFile ? (
                     <button
                       className="mt-5 mb-1 bg-gray-800 h-[28px] w-[112px] text-white text-sm rounded-[32px] font-light"
+                      disabled={loading}
                       onClick={uploadPicture}
                     >
                       {loading ? 'Loading...' : 'Upload'}
@@ -212,6 +236,12 @@ const Header = () => {
                       Click to change
                     </button>
                   )}
+                  <button
+                    className="text-sm text-gray-800 mt-2 font-medium"
+                    onClick={() => goToUserPage(userSecondaryInfo.username)}
+                  >
+                    My profile
+                  </button>
                   <button
                     onClick={logout}
                     className="text-sm text-blue-500 mt-2 font-medium"

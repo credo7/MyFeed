@@ -25,7 +25,7 @@ const Modal = () => {
   const captionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(null as any);
   const [loading, setLoading] = useState(false);
-  const { currentUser } = useAuth();
+  const { currentUser, userSecondaryInfo, updateUserSecondaryInfo } = useAuth();
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -46,18 +46,20 @@ const Modal = () => {
 
     setLoading(true);
 
+    await updateUserSecondaryInfo();
+
     const userDocs = await getDocs(
       query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
     );
 
-    const username = await userDocs?.docs[0]?.data().username;
+    const user = await userDocs?.docs[0]?.data();
 
     const docRef = await addDoc(collection(db, 'posts'), {
       uid: uid(),
       user_uid: currentUser.uid,
-      username,
+      username: user.username,
       caption: captionRef.current.value,
-      profileImg: currentUser.photoURL || '',
+      profileImg: user.photoURL,
       timeStamp: serverTimestamp(),
     });
 

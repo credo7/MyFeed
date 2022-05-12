@@ -11,11 +11,11 @@ const MiniProfile = () => {
   };
 
   return (
-    <div className="w-293px flex flex-row items-center space-x-4 justify-between pl-4 mt-5">
+    <div className="w-293px max-h-[56px] flex flex-row items-center space-x-2 justify-between pl-4 mt-5">
       <div className="flex flex-row space-x-4 justify-center items-center">
         <img
           onClick={goToProfilePage}
-          src={currentUser?.photoURL}
+          src={userSecondaryInfo?.photoURL}
           className="w-14 h-14 rounded-full object-cover cursor-pointer"
         />
         <div className="flex flex-col">
@@ -25,9 +25,9 @@ const MiniProfile = () => {
           >
             {userSecondaryInfo?.username}
           </p>
-          <p className="text-gray-500 text-xs">
+          <span className="text-gray-500 text-xs truncate max-w-[130px]">
             {userSecondaryInfo?.bio || 'Welcome to instagram'}
-          </p>
+          </span>
         </div>
       </div>
 

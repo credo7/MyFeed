@@ -96,7 +96,10 @@ const Profile = (props: any) => {
                   ) : (
                     <>
                       <div className="flex flex-row space-x-2">
-                        <button className="py-[5px] px-[9px] bg-white border-[1px] rounded-[32px] text-sm font-medium">
+                        <button
+                          onClick={alertSoon}
+                          className="py-[5px] px-[9px] bg-white border-[1px] rounded-[32px] text-sm font-medium"
+                        >
                           Message
                         </button>
                         {isFollower ? (
@@ -167,7 +170,7 @@ export async function getStaticProps({ params }: any) {
 
   const profileInfo = await getDocs(q);
 
-  const userUid = profileInfo?.docs[0]?.data().uid;
+  const userUid = profileInfo?.docs[0]?.data()?.uid;
 
   const postsRef = collection(db, 'posts');
   const res = [] as any;
@@ -181,7 +184,7 @@ export async function getStaticProps({ params }: any) {
     await postsInfo.forEach((doc) => {
       if (doc.data()) {
         try {
-          res.push(JSON.parse(JSON.stringify(doc?.data())));
+          res.push(JSON.parse(JSON.stringify(doc?.data() || '')));
         } catch (e) {}
       }
     });
