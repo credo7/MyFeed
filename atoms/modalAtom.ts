@@ -9,3 +9,8 @@ export const storyViewState = atom({
   key: 'storyViewState',
   default: false,
 });
+
+export const welcomeMessageState = atom({
+  key: 'welcomeMessageState',
+  default: true,
+});
