@@ -10,6 +10,8 @@
 - TailWind
 - Recoil
 - Firebase
+- CI/CD
+- GitHub pages
 
 ### Build
 
