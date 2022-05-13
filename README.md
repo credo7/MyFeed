@@ -13,7 +13,6 @@
 
 ```
 npm run dev
-
 ```
 
 ### Run
@@ -24,5 +23,6 @@ http://localhost:3000
 
 ### Demo
 > https://youtu.be/y___OOWVqzY
+
 
 The project was created for educational purposes and will be finalized as far as possible.
