@@ -36,13 +36,13 @@ const Suggestion = ({ userImg, username, bio }: ISuggestion) => {
     };
 
     getSuggestedProfileInfo();
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     if (userSecondaryInfo?.followings?.includes(suggestedProfile?.uid)) {
       setIsFollow(true);
     }
-  }, [suggestedProfile]);
+  }, [suggestedProfile, userSecondaryInfo?.followings]);
 
   const follow = async () => {
     const userRef = doc(db, 'users', currentUser.uid);

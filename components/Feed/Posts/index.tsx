@@ -29,7 +29,7 @@ const Posts = () => {
       }
     };
     updateFollowings();
-  }, []);
+  }, [currentUser.uid]);
 
   useEffect(() => {
     const updatePosts = async () => {

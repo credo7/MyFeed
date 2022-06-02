@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { useRecoilState } from 'recoil';
 
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!currentUser) router.push(`${process.env.BASE_PATH}/auth/signin`);
-  }, [currentUser]);
+  }, [currentUser, router]);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil';
 import { AuthProvider } from '../components/Context/AuthContext';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
     <AuthProvider>
       <RecoilRoot>

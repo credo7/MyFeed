@@ -110,7 +110,7 @@ export default function DirectList() {
     const unreadChats = chatsData.filter((chat) => chat.unreadMsgCount > 0);
 
     setUnreadMessages(unreadChats.length);
-  }, [chatsData]);
+  }, []);
 
   const search = (e: ChangeEvent<HTMLInputElement>) => {
     const filteredChats = chatsData.filter((chat) =>

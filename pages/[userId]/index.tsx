@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaUserCheck } from 'react-icons/fa';
-import { IPost, IProfileParams, IProfileParamsProps, IProfileProps } from '../../compiler/types';
+import { IPost, IProfileParamsProps, IProfileProps } from '../../compiler/types';
 
 import { useAuth } from '../../components/Context/AuthContext';
 import Header from '../../components/Header';
@@ -28,7 +28,7 @@ const Profile = (props: IProfileProps) => {
 
   useEffect(() => {
     if (!currentUser) router.push(`${process.env.BASE_PATH}/auth/signin`);
-  }, [currentUser]);
+  }, [currentUser, router]);
 
   const isOwner = currentUser.uid && currentUser.uid == props.user.uid;
 
@@ -47,7 +47,7 @@ const Profile = (props: IProfileProps) => {
       }
     };
     checkIsFollower();
-  }, []);
+  }, [currentUser.uid, props.user.uid]);
 
   const follow = async () => {
     const userRef = doc(db, 'users', currentUser.uid);

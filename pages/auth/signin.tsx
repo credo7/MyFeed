@@ -15,7 +15,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (currentUser) router.push(`${process.env.BASE_PATH}/`);
-  }, [currentUser]);
+  }, [currentUser, router]);
 
   async function handleSubmit(e: MouseEvent) {
     e.preventDefault();

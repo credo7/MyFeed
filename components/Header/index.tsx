@@ -118,9 +118,6 @@ const Header = () => {
             className="min-h-[50px] sm:min-h-[60px] flex flex-row px-4 justify-between 
       items-center sm:py-[10px] max-w-[970px] lg:mx-auto"
           >
-            {/* <div className="cursor-pointer lg:hidden mr-4">
-          <IoLogoInstagram className="h-10 w-10" />
-        </div> */}
             <div className="relative inline-grid flex-shrink-0">
               <img
                 onClick={goToMainPage}
@@ -136,7 +133,7 @@ const Header = () => {
 
               <input
                 ref={searchRef}
-                onKeyUp={(e) => search(e.currentTarget.value)} // TODO debounce
+                onKeyUp={(e) => search(e.currentTarget.value)}
                 className="block w-full pl-10 bg-gray-50 placeholder-gray-300 sm:text-sm border-none rounded-[32px] focus:ring-0"
                 type="text"
                 placeholder="Search"
@@ -167,7 +164,6 @@ const Header = () => {
                 onClick={goToMainPage}
                 className="hidden sm:block navbtn"
               />
-              {/* <AiOutlineMenu className="h-6 w-6 sm:hidden cursor-pointer text-gray-700" /> */}
               <div className="relative">
                 <HiOutlinePaperAirplane
                   onClick={alertSoon}
@@ -181,14 +177,11 @@ const Header = () => {
                 onClick={() => setOpen(true)}
                 className="navbtn w-6 h-6"
               />
-              {/* <TiCompass className="navbtn h-8 w-8 rotate-180" /> */}
               <AiOutlineHeart className="hidden navbtn w-8 h-8" />
               <div
                 className="cursor-pointer"
                 onClick={() => setOpenProfileModal(!openProfileModal)}
               >
-                {' '}
-                {/* TODO Tooltip */}
                 {avatar ? (
                   <img
                     className="h-9 w-9 rounded-full object-cover"
@@ -200,7 +193,6 @@ const Header = () => {
               </div>
               {openProfileModal ? (
                 <div className="absolute top-[76px] right-0 bg-[rgb(254,254,255)] border-[1px] border-gray-200 rounded-[32px] shadow-md flex flex-col items-center justify-center min-h-[280px] min-w-[210px]">
-                  {/* <p className="mt-4 mb-6">username</p> */}
                   {avatar || selectedFile ? (
                     <img
                       onClick={() => filePickerRef.current.click()}
@@ -218,7 +210,7 @@ const Header = () => {
                     type="file"
                     className="absolute"
                     hidden
-                    onChange={() => addImageToProfile}
+                    onChange={addImageToProfile as any}
                   />
                   {selectedFile ? (
                     <button
@@ -248,8 +240,6 @@ const Header = () => {
                   >
                     Sign out
                   </button>
-                  {/* <p>Full name</p> */}
-                  {/* <p>Bio</p> */}
                 </div>
               ) : (
                 <></>

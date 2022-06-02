@@ -1,5 +1,4 @@
 import {
-  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -48,7 +47,7 @@ const Post = ({ profileImg, username, caption, imageURL, uid, timeStamp }: IPost
       }
     };
     getLikes();
-  }, []);
+  }, [uid]);
 
   //Getting comments
   useEffect(() => {
@@ -61,7 +60,7 @@ const Post = ({ profileImg, username, caption, imageURL, uid, timeStamp }: IPost
       }
     };
     getComments();
-  }, []);
+  }, [uid]);
 
   const addComment = async () => {
     if (commentInputRef.current?.value && commentInputRef.current.value > '') {
@@ -99,7 +98,7 @@ const Post = ({ profileImg, username, caption, imageURL, uid, timeStamp }: IPost
     if (currentUserLike.length > 0) {
       setCurrentVote(currentUserLike[0].mark);
     }
-  }, [likes]);
+  }, [likes, currentUser.uid]);
 
   useEffect(() => {
     if (likes != undefined) {

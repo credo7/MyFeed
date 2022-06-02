@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import router from 'next/router';
-import { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAuth } from '../../components/Context/AuthContext';
 
@@ -36,7 +36,7 @@ const SignUp = () => {
     setLoading(false);
   }
 
-  const handleClickSignIn = (e:React.MouseEvent<HTMLElement>) => {
+  const handleClickSignIn = () => {
     router.push(`${process.env.BASE_PATH}/auth/signin`);
   };
 

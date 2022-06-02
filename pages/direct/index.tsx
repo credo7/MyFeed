@@ -7,7 +7,7 @@ import DirectList from './DirectList';
 
 export default function Direct() {
   const size = useWindowSize();
-  const [isChatOpen, setIsChatOpen] = useState(true);
+  const [isChatOpen] = useState(true);
 
   return (
     <>

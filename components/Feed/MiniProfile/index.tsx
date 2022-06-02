@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../Context/AuthContext';
 
 const MiniProfile = () => {
-  const { logout, currentUser, userSecondaryInfo } = useAuth();
+  const { logout, userSecondaryInfo } = useAuth();
   const router = useRouter();
 
   const goToProfilePage = () => {
