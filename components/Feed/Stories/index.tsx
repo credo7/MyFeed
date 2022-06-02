@@ -1,6 +1,7 @@
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { CgMathPlus } from 'react-icons/cg';
+import { IStory } from '../../../compiler/types';
 
 import { db } from '../../../firebase';
 import { alertSoon } from '../../../functions';
@@ -8,12 +9,12 @@ import { useAuth } from '../../Context/AuthContext';
 import Story from './Story';
 
 const Stories = () => {
-  const [stories, setStories] = useState([] as any);
+  const [stories, setStories] = useState([] as IStory[]);
   const { currentUser } = useAuth();
 
   useEffect(() => {
     const updateStories = async () => {
-      const res = [] as any;
+      const res = [] as IStory[];
       const userRef = collection(db, 'users');
       const q = query(userRef, where('uid', '==', currentUser.uid));
       const userDocs = await getDocs(q);
@@ -59,12 +60,12 @@ const Stories = () => {
         </div>
         <p className="mt-[4px] text-xs w-16 truncate text-center ">Add story</p>
       </div>
-      {stories.map((story: any, index: any) => (
+      {stories.map((story: IStory, index: number) => (
         <Story
-          onClick={alertSoon}
           key={index}
-          img={story.avatar}
+          imageURL={story.imageURL}
           username={story.username}
+          profileImg={story.profileImg}
         />
       ))}
     </div>

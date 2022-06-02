@@ -1,12 +1,12 @@
 import {
   collection,
   getDocs,
-  onSnapshot,
   orderBy,
   query,
   where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { IPost } from '../../../compiler/types';
 
 import { db } from '../../../firebase';
 import { useAuth } from '../../Context/AuthContext';
@@ -14,17 +14,8 @@ import Post from './Post';
 
 const Posts = () => {
   const { currentUser } = useAuth();
-  const [posts, setPosts] = useState([] as any);
-  const [followings, setFollowings] = useState([] as any);
-
-  // onSnapshot(
-  //   query(collection(db, 'users'), where('uid', '==', currentUser.uid)),
-  //   (snapshot) => {
-  //     if (snapshot?.docs[0]?.data()?.followings) {
-  //       setFollowings(snapshot?.docs[0]?.data()?.followings);
-  //     }
-  //   },
-  // );
+  const [posts, setPosts] = useState([] as IPost[]);
+  const [followings, setFollowings] = useState([]);
 
   useEffect(() => {
     const updateFollowings = async () => {
@@ -40,18 +31,9 @@ const Posts = () => {
     updateFollowings();
   }, []);
 
-  //   //--------------
-  // useEffect(()=>{
-  //   if(posts){
-  //     console.log(posts)
-  //   }
-
-  // },[posts])
-  //   //--------------
-
   useEffect(() => {
     const updatePosts = async () => {
-      const res = [] as any;
+      const res = [] as IPost[];
 
       const postsRef = collection(db, 'posts');
       if (followings?.length > 0) {
@@ -80,16 +62,15 @@ const Posts = () => {
           </div>
         </div>
       )}
-      {posts.map((post: any, index: any) => (
+      {posts.map((post: IPost, index: number) => (
         <Post
           key={index}
           username={post?.username}
-          userImg={post?.profileImg}
+          profileImg={post?.profileImg}
           caption={post?.caption}
           imageURL={post?.imageURL}
           uid={post?.uid}
-          date={post?.timeStamp}
-        />
+          timeStamp={post?.timeStamp}        />
       ))}
     </div>
   );

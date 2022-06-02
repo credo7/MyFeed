@@ -29,12 +29,12 @@ const SignIn = () => {
     setLoading(false);
   }
 
-  const handleClickSignUp = (e: any) => {
+  const handleClickSignUp = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     router.push(`${process.env.BASE_PATH}/auth/signup`);
   };
 
-  const handleClickSigninAsGuest = async (e: any) => {
+  const handleClickSigninAsGuest = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setGuestLoading(true);
 
@@ -83,7 +83,7 @@ const SignIn = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full space-y-4 px-10 items-center justify-center">
-                    <form onSubmit={handleSubmit as any} className="space-y-3">
+                    <form onSubmit={() => handleSubmit} className="space-y-3">
                       <input
                         ref={emailRef}
                         placeholder="email"
@@ -146,15 +146,5 @@ const SignIn = () => {
     </>
   );
 };
-
-// export async function getServerSideProps() {
-//   const providers = await getProviders();
-
-//   return {
-//     props: {
-//       providers,
-//     },
-//   };
-// }
 
 export default SignIn;

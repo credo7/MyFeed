@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import router from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 
 import { useAuth } from '../../components/Context/AuthContext';
 
@@ -19,7 +19,7 @@ const SignUp = () => {
     if (currentUser) router.push(`${process.env.BASE_PATH}/`);
   }, [currentUser]);
 
-  async function handleSubmit(e: MouseEvent) {
+  async function handleSubmit(e:React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -36,12 +36,11 @@ const SignUp = () => {
     setLoading(false);
   }
 
-  const handleClickSignIn = (e: any) => {
-    e.preventDefault();
+  const handleClickSignIn = (e:React.MouseEvent<HTMLElement>) => {
     router.push(`${process.env.BASE_PATH}/auth/signin`);
   };
 
-  const handleClickSigninAsGuest = async (e: any) => {
+  const handleClickSigninAsGuest = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setGuestLoading(true);
 
@@ -84,7 +83,7 @@ const SignUp = () => {
             </div>
 
             <div className="flex flex-col w-full space-y-2 px-10 items-center justify-center ">
-              <form className="space-y-3" onSubmit={handleSubmit as any}>
+              <form className="space-y-3" onSubmit={() => handleSubmit}>
                 <input
                   ref={emailRef}
                   required
@@ -130,19 +129,7 @@ const SignUp = () => {
                 </button>
               </form>
               <div className="flex flex-row">
-                {/* <p className="font-medium text-gray-600">OR</p> */}
               </div>
-              {/* //-----For providers--------// */}
-              {/* {Object.values(providers).map((provider: any) => (
-                  <div className="pb-6" key={provider.name}>
-                    <button
-                      className=" text-gray-400"
-                      onClick={() => signIntoProvider(provider.id)}
-                    >
-                      Sign in with {provider.name}
-                    </button>
-                  </div>
-                ))} */}
               <div className="flex flex-col w-[350px] h-[40px] justify-center items-center box">
                 <div className="flex flex-row space-x-2">
                   <p className="text-sm">Already have an account?</p>

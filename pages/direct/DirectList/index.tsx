@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 
 import DirectCell from './DirectCell';
@@ -112,7 +112,7 @@ export default function DirectList() {
     setUnreadMessages(unreadChats.length);
   }, [chatsData]);
 
-  const search = (e: any) => {
+  const search = (e: ChangeEvent<HTMLInputElement>) => {
     const filteredChats = chatsData.filter((chat) =>
       chat.username
         .toUpperCase()

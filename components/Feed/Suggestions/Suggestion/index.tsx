@@ -11,13 +11,14 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaUserCheck } from 'react-icons/fa';
+import { ISuggestion, ISuggestedProfile } from '../../../../compiler/types';
 
 import { db } from '../../../../firebase';
 import { useAuth } from '../../../Context/AuthContext';
 
-const Suggestion = ({ userImg, username, bio }: any) => {
+const Suggestion = ({ userImg, username, bio }: ISuggestion) => {
   const { currentUser, userSecondaryInfo } = useAuth();
-  const [suggestedProfile, setSuggestedProfile] = useState() as any;
+  const [suggestedProfile, setSuggestedProfile] = useState({} as ISuggestedProfile);
   const [isFollow, setIsFollow] = useState(false);
   const router = useRouter();
 
@@ -38,8 +39,6 @@ const Suggestion = ({ userImg, username, bio }: any) => {
   }, []);
 
   useEffect(() => {
-    console.log(userSecondaryInfo?.following);
-
     if (userSecondaryInfo?.followings?.includes(suggestedProfile?.uid)) {
       setIsFollow(true);
     }

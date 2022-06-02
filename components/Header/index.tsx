@@ -1,4 +1,3 @@
-import { updateProfile } from 'firebase/auth';
 import {
   collection,
   doc,
@@ -18,20 +17,21 @@ import { HiOutlinePaperAirplane } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
 
 import { modalState } from '../../atoms/modalAtom';
+import { HTMLInputEvent } from '../../compiler/types';
 import { db, storage } from '../../firebase';
 import { alertSoon } from '../../functions';
 import { useAuth } from '../Context/AuthContext';
 
 const Header = () => {
-  const [open, setOpen] = useRecoilState(modalState);
+  const [_, setOpen] = useRecoilState(modalState);
   const { currentUser, logout, userSecondaryInfo } = useAuth();
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const filePickerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const [selectedFile, setSelectedFile] = useState(null as any);
+  const [selectedFile, setSelectedFile] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [usernames, setUsernames] = useState([] as string[]);
-  const searchRef = useRef() as any;
+  const searchRef = useRef<HTMLInputElement>(null);
   const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
@@ -40,15 +40,15 @@ const Header = () => {
     }
   }, [userSecondaryInfo]);
 
-  const addImageToProfile = (e: any) => {
+  const addImageToProfile = (e:HTMLInputEvent) => {
     const reader = new FileReader();
-    if (e.target.files[0]) {
+    if (e.target?.files && e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
 
     reader.onload = (readerEvent) => {
       if (readerEvent.target?.result) {
-        setSelectedFile(readerEvent.target?.result as any);
+        setSelectedFile(readerEvent.target?.result as string);
       }
     };
   };
@@ -74,7 +74,7 @@ const Header = () => {
     );
     setOpen(false);
     setLoading(false);
-    setSelectedFile(null);
+    setSelectedFile('');
   };
 
   const goToMainPage = () => {
@@ -82,7 +82,7 @@ const Header = () => {
   };
 
   const goToUserPage = (username: string, isSearch = false) => {
-    if (isSearch) {
+    if (isSearch && searchRef.current?.value) {
       searchRef.current.value = '';
       setUsernames([]);
     }
@@ -218,7 +218,7 @@ const Header = () => {
                     type="file"
                     className="absolute"
                     hidden
-                    onChange={addImageToProfile}
+                    onChange={() => addImageToProfile}
                   />
                   {selectedFile ? (
                     <button

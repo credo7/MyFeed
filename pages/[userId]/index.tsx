@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaUserCheck } from 'react-icons/fa';
+import { IPost, IProfileParams, IProfileParamsProps, IProfileProps } from '../../compiler/types';
 
 import { useAuth } from '../../components/Context/AuthContext';
 import Header from '../../components/Header';
@@ -20,7 +21,7 @@ import { db } from '../../firebase';
 import { alertSoon } from '../../functions';
 import ProfilePosts from './ProfilePosts';
 
-const Profile = (props: any) => {
+const Profile = (props: IProfileProps) => {
   const router = useRouter();
   const { currentUser } = useAuth();
   const [isFollower, setIsFollower] = useState(false);
@@ -164,7 +165,7 @@ const Profile = (props: any) => {
 
 export default Profile;
 
-export async function getStaticProps({ params }: any) {
+export async function getStaticProps({ params }:IProfileParamsProps) {
   const docRef = collection(db, 'users');
   const q = query(docRef, where('username', '==', params.userId));
 
@@ -173,9 +174,9 @@ export async function getStaticProps({ params }: any) {
   const userUid = profileInfo?.docs[0]?.data()?.uid;
 
   const postsRef = collection(db, 'posts');
-  const res = [] as any;
-  const followers = [] as any;
-  let followings = [] as any;
+  const res:IPost[] = [];
+  const followers:string[] = [];
+  let followings:string[] = [];
   if (userUid) {
     const postsQ = query(postsRef, where('user_uid', '==', userUid));
 
@@ -212,7 +213,7 @@ export async function getStaticProps({ params }: any) {
 }
 
 export async function getStaticPaths() {
-  const res: any = [];
+  const res: string[] = [];
   const docsRef = collection(db, 'users');
   const q = query(docsRef);
 

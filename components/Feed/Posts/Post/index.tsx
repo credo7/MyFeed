@@ -16,25 +16,26 @@ import { FaRegComment } from 'react-icons/fa';
 import { HiOutlinePaperAirplane } from 'react-icons/hi';
 import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri';
 import Moment from 'react-moment';
+import { IComment, ILike, IPost } from '../../../../compiler/types';
 
 import { db } from '../../../../firebase';
 import { useAuth } from '../../../Context/AuthContext';
 import Comment from './Comment';
 
-const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
+const Post = ({ profileImg, username, caption, imageURL, uid, timeStamp }: IPost) => {
   const { currentUser, userSecondaryInfo } = useAuth();
-  const [likes, setLikes] = useState([] as any);
-  const [voteCout, setVoteCount] = useState() as any;
+  const [likes, setLikes] = useState([] as ILike[]);
+  const [voteCout, setVoteCount] = useState(0);
   const [currentVote, setCurrentVote] = useState(0);
-  const [comments, setComments] = useState([] as any);
-  const commentInputRef = useRef() as any;
+  const [comments, setComments] = useState([] as IComment[]);
+  const commentInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const goToProfilePage = () => {
     router.push(`${process.env.BASE_PATH}/${username}`);
   };
 
-  const time = new Date(date.seconds * 1000 + date.nanoseconds / 100000);
+  const time = new Date(timeStamp.seconds * 1000 + timeStamp.nanoseconds / 100000);
 
   //Getting likes
   useEffect(() => {
@@ -63,13 +64,13 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   }, []);
 
   const addComment = async () => {
-    if (commentInputRef.current.value > '') {
+    if (commentInputRef.current?.value && commentInputRef.current.value > '') {
       setComments([
         ...comments,
         {
           username: userSecondaryInfo.username,
           caption: commentInputRef.current.value,
-          date: now(),
+          timeStamp: now(),
         },
       ]);
     }
@@ -78,7 +79,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
     const postId = commentsDocs.docs[0].id;
     const commentRef = doc(db, 'posts', postId);
 
-    if (commentInputRef.current.value > '') {
+    if (commentInputRef.current?.value && commentInputRef.current.value > '') {
       updateDoc(commentRef, {
         comments: arrayUnion({
           username: userSecondaryInfo.username,
@@ -103,7 +104,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
   useEffect(() => {
     if (likes != undefined) {
       let count = 0;
-      likes.forEach((like: any) => {
+      likes.forEach((like: ILike) => {
         count += like.mark;
       });
       setVoteCount(count);
@@ -126,7 +127,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
     const likeRef = doc(db, 'posts', postId);
 
     const filteredLikes = likes.filter(
-      (like: any) => like.uid != currentUser.uid,
+      (like: ILike) => like.uid != currentUser.uid,
     );
 
     if (vote == currentVote) {
@@ -159,7 +160,7 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
             <img
               onClick={goToProfilePage}
               className="w-10 h-10 rounded-full object-cover cursor-pointer"
-              src={userImg}
+              src={profileImg}
             />
             <div className="flex flex-col">
               <p className="">{username}</p>
@@ -209,15 +210,14 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
             </div>
 
             {/* comments */}
-            {/* <p className="px-4 text-gray-400">View all 140 comments</p> */}
             <div className="flex flex-col max-h-12 overflow-y-scroll space-y-[2px] pb-[8px]">
-              {comments.map((comment: any, index: any) => {
+              {comments.map((comment: IComment, index: number) => {
                 return (
                   <Comment
                     key={index}
                     username={comment.username}
                     caption={comment.caption}
-                    date={comment.timeStamp}
+                    timeStamp={comment.timeStamp}
                   />
                 );
               })}
@@ -225,10 +225,6 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
           </div>
         </div>
 
-        {/* date */}
-        {/* <div className="px-4 text-gray-400 font-light text-sm truncate"> */}
-        {/* </div> */}
-        {/* comment input */}
         <div className=" sm:bg-gray-50 sm:rounded-b-[32px]">
           <form
             onSubmit={(e) => {
@@ -237,7 +233,6 @@ const Post = ({ userImg, username, caption, imageURL, uid, date }: any) => {
             }}
             className="flex flex-row px-4 py-[2px] justify-between items-center"
           >
-            {/* <FaRegSmileWink className=" w-8 h-8" /> */}
             <input
               ref={commentInputRef}
               className="sm:mx-4 w-full h-[40px] text-[16px] sm:px-2 border-0 outline-none bg-transparent"

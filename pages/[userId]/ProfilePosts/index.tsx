@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
+import { IPost } from '../../../compiler/types';
 
 import styles from './posts.module.css';
 
-const ProfilePosts = ({ posts }: any) => {
+const ProfilePosts = ({ posts }: { posts:IPost[] }) => {
   const postsElements = useMemo(() => {
     return (
       <div className="flex flex-wrap">
-        {posts.map((post: any, index: number) => {
+        {posts.map((post: IPost, index: number) => {
           return (
             <div key={index} className={styles.square}>
               <img

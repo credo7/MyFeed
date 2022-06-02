@@ -25,22 +25,22 @@ const Modal = () => {
   const captionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(null as any);
   const [loading, setLoading] = useState(false);
-  const { currentUser, userSecondaryInfo, updateUserSecondaryInfo } = useAuth();
+  const { currentUser, updateUserSecondaryInfo } = useAuth();
 
-  const addImageToPost = (e: any) => {
+  const addImageToPost = (e: { target: { files: Blob[]; }; }) => {
     const reader = new FileReader();
-    if (e.target.files[0]) {
+    if (e.target?.files && e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
 
     reader.onload = (readerEvent) => {
       if (readerEvent.target?.result) {
-        setSelectedFile(readerEvent.target?.result as any);
+        setSelectedFile(readerEvent.target?.result);
       }
     };
   };
 
-  const uploadPost = async (e: any) => {
+  const uploadPost = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (loading) return;
 
@@ -123,15 +123,14 @@ const Modal = () => {
                   <div className="absolute">
                     <input
                       ref={filePickerRef}
-                      onChange={addImageToPost}
+                      onChange={addImageToPost as any}
                       type="file"
                       hidden
                     />
                   </div>
                   <form
                     className="flex flex-col space-y-4"
-                    // hidden={!selectedFile}
-                    onSubmit={uploadPost}
+                    onSubmit={uploadPost as any}
                   >
                     <input
                       ref={captionRef}
